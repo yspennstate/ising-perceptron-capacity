@@ -66,7 +66,7 @@ def gradPhi(l1, l2):
     return a1, a2
 
 
-def dual_of_ct(a1, a2, nsteps=6):
+def dual_of_ct(a1, a2, nsteps=14):
     """Continuation from a* along the segment (robust for far points)."""
     l = (mp.mpf(1), mp.mpf(0))
     for k in range(1, nsteps + 1):
@@ -119,15 +119,42 @@ def T_of(a1, a2, s):
 
 
 def G_of(a1, a2):
+    """min over s >= 0 (the minimizer can sit at the boundary s = 0, where
+    Newton fails; fall back to a scan with golden refinement)."""
     f = lambda s: s * s * PSI / 2 + ALPHA * T_of(a1, a2, s)
     s = mp.mpf(S0)
-    for _ in range(40):
-        h = mp.mpf('1e-6')
-        d = (f(s + h) - f(s - h)) / (2 * h)
-        d2 = (f(s + h) - 2 * f(s) + f(s - h)) / (h * h)
-        if abs(d) < mp.mpf('1e-15'):
-            break
-        s = s - d / d2
+    try:
+        for _ in range(40):
+            h = mp.mpf('1e-6')
+            d = (f(s + h) - f(s - h)) / (2 * h)
+            d2 = (f(s + h) - 2 * f(s) + f(s - h)) / (h * h)
+            if abs(d) < mp.mpf('1e-15'):
+                break
+            if d2 <= 0:
+                raise ZeroDivisionError
+            s = s - d / d2
+        if s < 0:
+            raise ZeroDivisionError
+    except ZeroDivisionError:
+        ss = [mp.mpf(k) / 100 for k in range(0, 301)]
+        vs = [f(x) for x in ss]
+        k = vs.index(min(vs))
+        lo = ss[max(0, k - 1)]
+        hi = ss[min(len(ss) - 1, k + 1)]
+        g = (mp.sqrt(5) - 1) / 2
+        a, b = lo, hi
+        c, d_ = b - g * (b - a), a + g * (b - a)
+        fc, fd = f(c), f(d_)
+        for _ in range(60):
+            if fc < fd:
+                b, d_, fd = d_, c, fc
+                c = b - g * (b - a)
+                fc = f(c)
+            else:
+                a, c, fc = c, d_, fd
+                d_ = a + g * (b - a)
+                fd = f(d_)
+        s = (a + b) / 2
     return f(s), s
 
 
@@ -163,7 +190,7 @@ def I_of(lam):
             return mp.log(mp.ncdf(-g)) * mp.npdf(gz + x)
         v = mp.quad(f, [0, 3, 9])
         return v * mp.npdf(z) / mp.ncdf(-gz)
-    return -ALPHA * mp.quad(inner, [-7, -2, 0, 2, 7])
+    return ALPHA * mp.quad(inner, [-7, -2, 0, 2, 7])
 
 
 def dPG(lam, A):
@@ -203,7 +230,13 @@ def main():
     for (p1, p2) in [(0.8, 0.40), (1.0, 0.50), (0.6, 0.30), (1.05, 0.58),
                      (0.3, 0.15), (-0.5, -0.3)]:
         try:
-            Hv, lam = H_of(mp.mpf(p1), mp.mpf(p2))
+            if p1 < 0:
+                # grad Phi is odd, so lambda(-a) = -lambda(a): seed there
+                lp = dual_of_ct(mp.mpf(-p1), mp.mpf(-p2))
+                Hv, lam = H_of(mp.mpf(p1), mp.mpf(p2),
+                               l0=(-lp[0], -lp[1]))
+            else:
+                Hv, lam = H_of(mp.mpf(p1), mp.mpf(p2))
             Gv, _ = G_of(mp.mpf(p1), mp.mpf(p2))
             check(f"S_*({p1},{p2}) < 0", Hv + Gv < 0,
                   f"= {mp.nstr(Hv + Gv, 6)}")
