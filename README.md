@@ -64,3 +64,20 @@ python block3bc.py par 8      # the Ding-Sun middle interval
 
 Set `HUANG_GRID_N=2700` in the environment for the sweep resolutions used in
 the logs.
+
+## Authorship
+
+Most of the work in this repository was done by Fable 5 (Anthropic), an AI
+system: the mathematical theory (the moment-coordinate reduction, the ray
+majorants and their pinned identities, the B_Lambda bound and the
+sublevel-set localization, the corrected near-one chain), essentially all
+of the code, the soundness audits, and the drafting of the paper. The
+system operated in an autonomous goal mode: the author set the objective
+of resolving the outstanding conditions, and it worked toward that
+objective over extended unattended sessions, choosing the approach,
+implementing and running the certificates, detecting and repairing its own
+errors through independent cross-checks, and iterating until the
+verifications closed. The author supervised the runs, reviewed the
+mathematics, and accepts responsibility for the results. This is part of a
+broader research project on the extent to which current AI systems can
+resolve open problems in mathematics.
