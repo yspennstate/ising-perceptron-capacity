@@ -21,7 +21,7 @@ subsumed by ball arithmetic.
 """
 
 from flint import arb, acb
-from core import (rat, dec, hull, iv, phi, Psi, logPsi, mills,
+from core import (rat, dec, hull, iv, phi, Psi, logPsi, mills, endpoints,
                   c_phi, c_Psi, c_logPsi, c_mills,
                   integrate, gauss_tail_mass, z1_tail, z2_tail,
                   ALPHA, ALPHA_LB, ALPHA_UB, Q, PSI, GAMMA,
@@ -296,7 +296,7 @@ def I_upper_box(lam, s_tilt, alpha=None, zlo=-6, zhi=6, xhi=None,
             return c_logPsi(g - S, an2) * c_phi(gz + x)
 
         val = acb.integral(f, acb(0), acb(xhi), abs_tol=tol_in,
-                           depth_limit=2000, eval_limit=1000000)
+                           depth_limit=300, eval_limit=300000)
         return val * c_phi(z) / Psigz
 
     res = acb(0)
@@ -304,7 +304,7 @@ def I_upper_box(lam, s_tilt, alpha=None, zlo=-6, zhi=6, xhi=None,
     cuts = [c for c in cuts if (arb(zlo) <= c) and (c <= arb(zhi))]
     for lo, hi in zip(cuts[:-1], cuts[1:]):
         res += acb.integral(inner, acb(lo), acb(hi), abs_tol=tol_out,
-                            depth_limit=2000, eval_limit=1000000)
+                            depth_limit=300, eval_limit=300000)
     assert res.imag.contains(arb(0))
     return alpha * res.real
 
@@ -343,13 +343,13 @@ def I_upper_near1(lam, zlo=-6, zhi=6, uhi=12,
                     * c_phi(gz + root * u))
 
         val = acb.integral(f, acb(0), acb(uhi), abs_tol=tol_in,
-                           depth_limit=2000, eval_limit=1000000)
+                           depth_limit=300, eval_limit=300000)
         return val * c_phi(z) / Psigz
 
     res = acb(0)
     for lo, hi in [(zlo, -3), (-3, 0), (0, 3), (3, zhi)]:
         res += acb.integral(inner, acb(lo), acb(hi), abs_tol=tol_out,
-                            depth_limit=2000, eval_limit=1000000)
+                            depth_limit=300, eval_limit=300000)
     assert res.imag.contains(arb(0))
     # res.real <= 0; multiply by the root and alpha balls
     return ALPHA * (1 - lam * lam).sqrt() * res.real
@@ -458,7 +458,8 @@ def frH_prime(A, n=300):
 
 
 def I_prime_box(lam, s_tilt, zlo=-6, zhi=6, xhi=None,
-                inner_tol_bits=18, outer_tol_bits=15):
+                inner_tol_bits=18, outer_tol_bits=15,
+                depth=300, evals=300000):
     """Enclosure of d/dlam of the RESTRICTED I_s integral over the box,
     plus a rigorous bound for the derivative mass outside the box, so the
     result encloses I_s'(lam) for the FULL integral.
@@ -505,13 +506,13 @@ def I_prime_box(lam, s_tilt, zlo=-6, zhi=6, xhi=None,
             return E * dg * c_phi(gz + x)
 
         val = acb.integral(f, acb(0), acb(xhi), abs_tol=tol_in,
-                           depth_limit=2000, eval_limit=1000000)
+                           depth_limit=300, eval_limit=300000)
         return val * c_phi(z) / Psigz
 
     res = acb(0)
     for lo, hi in [(zlo, -3), (-3, 0), (0, 3), (3, zhi)]:
         res += acb.integral(inner, acb(lo), acb(hi), abs_tol=tol_out,
-                            depth_limit=2000, eval_limit=1000000)
+                            depth_limit=300, eval_limit=300000)
     assert res.imag.contains(arb(0))
     body = -ALPHA * res.real
 
@@ -764,13 +765,13 @@ def I_second_box(lam, zlo=-7.5, zhi=7.5, xhi=14,
             return (Ep * dg * dg + E * ddg) * c_phi(gz + x)
 
         val = acb.integral(f, acb(0), acb(xhi), abs_tol=tol_in,
-                           depth_limit=2000, eval_limit=1000000)
+                           depth_limit=300, eval_limit=300000)
         return val * c_phi(z) / Psigz
 
     res = acb(0)
     for lo, hi in [(zlo, -3), (-3, 0), (0, 3), (3, zhi)]:
         res += acb.integral(inner, acb(lo), acb(hi), abs_tol=tol_out,
-                            depth_limit=2000, eval_limit=1000000)
+                            depth_limit=300, eval_limit=300000)
     assert res.imag.contains(arb(0))
     body = -ALPHA * res.real
     tail = _isecond_tail(lam, arb(abs(zlo)), arb(xhi))
@@ -869,3 +870,273 @@ def _isecond_tail(lam, L=arb(7.5), XC=arb(14)):
         for k in range(j + 1):
             r2b += 2 * pij * comb(j, k) * g ** (i + j - k)                 * zk[min(i + j - k, 3)] * MT[k]
     return ALPHA_UB * (r1a + r1b + r2a + r2b)
+
+
+def I_second_fullbound(lam):
+    """Instant closed-form bound on |I''(lam)| for |lam| <= 0.25: the
+    polynomial/measure bounds of _isecond_tail applied to the WHOLE domain
+    (for z >= 0, phi(gz+x) <= phi(x) and 1/Psi(gz) <= 1/Psi(1) for gz <= 1,
+    Psi(u) >= phi(u) u/(1+u^2) for gz >= 1, so the measure is at most
+    [1/Psi(1) + sqrt(2pi)(u+1)] phi(z) phi(x); for z <= 0 the measure is at
+    most 2 phi(z) phi(t), t = gz + x, and x = t + u).  Crude but rigorous."""
+    from math import comb
+    g = GAMMA_UB
+    al = abs(arb(lam))
+    r2 = 1 - lam * lam
+    beta = al / r2.sqrt()
+    b32 = r2 ** arb(-1.5)
+    b52 = r2 ** arb(-2.5)
+    SQ2PI = (2 * arb.pi()).sqrt()
+    x0, x1, x2, x3 = arb(1) / 2, 1 / SQ2PI, arb(1) / 2, 2 / SQ2PI
+    b2 = b32 * b32
+    p = {}
+    p[(2, 0)] = 4 * b2
+    p[(1, 1)] = 4 * b2
+    p[(0, 2)] = b2
+    A_ = b32 + 6 * al * b52
+    B_ = 3 * al * b52
+    p[(1, 0)] = p.get((1, 0), arb(0)) + A_
+    p[(0, 1)] = p.get((0, 1), arb(0)) + B_
+    p[(2, 0)] = p[(2, 0)] + A_
+    p[(1, 1)] = p[(1, 1)] + B_ + beta * A_
+    p[(0, 2)] = p[(0, 2)] + beta * B_
+    # z >= 0 (half-line z-moments zk, full half-line x-moments xm)
+    z0, z1_, z2_, z3_ = arb(1) / 2, 1 / SQ2PI, arb(1) / 2, 2 / SQ2PI
+    zk = (z0, z1_, z2_, z3_)
+    xm = (x0, x1, x2, x3)
+    wPsi = 1 / Psi(arb(1))
+    rpos = arb(0)
+    for (i, j), pij in p.items():
+        zi = (wPsi * g ** i * zk[min(i, 3)]
+              + SQ2PI * (g ** (i + 1) * zk[min(i + 1, 3)]
+                         + g ** i * zk[min(i, 3)]))
+        rpos += pij * zi * xm[j]
+    # z <= 0: t = gz + x over R (absolute moments), u = g|z| half-line
+    a_mom = (arb(1), (2 / arb.pi()).sqrt(), arb(1), 2 * (2 / arb.pi()).sqrt())
+    rneg = arb(0)
+    for (i, j), pij in p.items():
+        for k in range(j + 1):
+            rneg += 2 * pij * comb(j, k) * g ** (i + j - k) \
+                * zk[min(i + j - k, 3)] * a_mom[k]
+    return ALPHA_UB * (rpos + rneg)
+
+
+def K_lb_neg(lam_lo, lam_hi, tol_bits=13):
+    """Ding-Sun Corollary 9.3 lower envelope K_lb(lam_lo, lam_hi) for
+    I'(lam) at s = 0 (their K_{s,lb,i}, i = 1,2,3: the K_{s,ub,i} displays
+    with lb and ub exchanged), valid for lam_min <= lam_lo <= lam_hi <= 1
+    of the same sign.  Small fixed domains keep every Mills argument
+    moderate, so evaluation is fast where the direct I' evaluator ground.
+    The truncation constant -1.1e-7/(1-L_ub)^{1/2} is included."""
+    from core import endpoints
+    ll, lu = arb(lam_lo), arb(lam_hi)
+    # parameter-rectangle corners (certified in block 1)
+    a_lo, a_hi = endpoints(ALPHA)
+    q_lo, q_hi = endpoints(Q)
+    g_lo, g_hi = endpoints(GAMMA)
+    alb, aub = arb(a_lo), arb(a_hi)
+    glb, gub = arb(g_lo), arb(g_hi)
+    # c(lam) = sqrt((1-lam)/(1+lam)) decreasing in lam; L = lam^2
+    clb = ((1 - lu) / (1 + lu)).sqrt()     # c at lam_hi = c-lower
+    cub = ((1 - ll) / (1 + ll)).sqrt()     # c at lam_lo = c-upper
+    # on the negative branch |lam_lo| >= |lam_hi|
+    Llb = (lu * lu).union(ll * ll)
+    Llo, _ = endpoints(Llb)
+    Lhi_ = max(float(ll * ll), float(lu * lu))
+    Llb = arb(min(float(ll * ll), float(lu * lu)))
+    Lub = arb(Lhi_)
+    tol = arb(2) ** (-tol_bits)
+
+    def _E(x):
+        return c_phi(x) / c_Psi(x)
+
+    # K_{s,lb,1}: exchange lb<->ub in K_{s,ub,1}.  The integrand is a
+    # single exponential of summed log-terms: the phi/Psi ratios lose
+    # badly as ball quotients near the top of the z range.
+    LOG2PI = (2 * arb.pi()).log()
+
+    def f1(z, an):
+        if z.real.rad() > 0.3 or z.imag.rad() > 0.3:
+            return acb(arb(0, arb('inf')))
+        lPz = c_logPsi(acb(glb) * z, an)
+        if not lPz.is_finite():
+            return acb(arb(0, arb('inf')))
+
+        def g1(u, an2):
+            arg = acb(clb) * acb(glb) * z - acb(lu) * u
+            lPs = c_logPsi(arg, an2)
+            if not lPs.is_finite():
+                return acb(arb(0, arb('inf')))
+            w = acb(gub) * z + (1 - Llb).sqrt() * u
+            expo = (-arg * arg / 2 - lPs - w * w / 2 - z * z / 2 - lPz
+                    - acb(LOG2PI) * 3 / 2)
+            return (acb(clb) * acb(glb) * z + u) * expo.exp()
+        return acb.integral(g1, acb(0), acb(8), abs_tol=tol,
+                            depth_limit=200, eval_limit=200000)
+    K1 = acb(0)
+    for zl, zh in ((0, 2), (2, 4), (4, '5.5'), ('5.5', '6.5')):
+        K1 += acb.integral(f1, acb(zl), acb(zh), abs_tol=tol,
+                           depth_limit=200, eval_limit=200000)
+    K1 = K1.real * alb / (1 - Llb).sqrt()
+
+    # K_{s,lb,2}
+    def f2(z, an):
+        if z.real.rad() > 0.3 or z.imag.rad() > 0.3:
+            return acb(arb(0, arb('inf')))
+        Pz = c_Psi(acb(glb) * z)
+        if not (Pz.real > 0):
+            return acb(arb(0, arb('inf')))
+
+        def g2(u, an2):
+            arg = acb(clb) * acb(glb) * (1 + acb(ll) * u) * z
+            Ps = c_Psi(arg)
+            if not (Ps.real > 0):
+                return acb(arb(0, arb('inf')))
+            return z * z * (1 - u) * (c_phi(arg) / Ps) \
+                * c_phi(acb(glb) * z * (1 - (1 - acb(ll)) * u)) * c_phi(z)
+        v = acb.integral(g2, acb(0), acb(1), abs_tol=tol,
+                         depth_limit=200, eval_limit=200000)
+        return v / Pz
+    K2 = acb.integral(f2, acb('-3.3'), acb(0), abs_tol=tol,
+                      depth_limit=200, eval_limit=200000).real
+    K2 = K2 * (-aub) * cub * gub * gub / (1 + ll)
+
+    # K_{s,lb,3}
+    SQ2PI = (2 * arb.pi()).sqrt()
+
+    def f3(z, an):
+        if z.real.rad() > 0.3 or z.imag.rad() > 0.3:
+            return acb(arb(0, arb('inf')))
+        Pz = c_Psi(acb(gub) * z)
+        if not (Pz.real > 0):
+            return acb(arb(0, arb('inf')))
+
+        def g3(u, an2):
+            arg = acb(cub) * acb(gub) * (1 + acb(lu)) * z - acb(lu) * u
+            Ps = c_Psi(arg)
+            if not (Ps.real > 0):
+                return acb(arb(0, arb('inf')))
+            expo = (-(Lub * (acb(gub) * z) ** 2
+                      + u * u * (1 - Llb)
+                      + z * u * acb(glb) * acb(ll)
+                      * (1 - Lub).sqrt()) / 2).exp()
+            return u * (c_phi(arg) / Ps) * c_phi(z) * expo
+        v = acb.integral(g3, acb(0), acb(9), abs_tol=tol,
+                         depth_limit=200, eval_limit=200000)
+        return v / Pz
+    K3 = acb.integral(f3, acb('-3.3'), acb(0), abs_tol=tol,
+                      depth_limit=200, eval_limit=200000).real
+    K3 = K3 * alb / (SQ2PI * (1 - Llb).sqrt())
+
+    trunc = rat(11, 10 ** 8) / (1 - Lub).sqrt()
+    return K1 + K2 + K3 - trunc
+
+
+# --- generic absolute-integral bound machinery (degree-agnostic) -----------
+
+def _pmul(p, q):
+    """Product of polynomials in (|z|, x) as {(i, j): coeff >= 0}."""
+    r = {}
+    for (i1, j1), c1 in p.items():
+        for (i2, j2), c2 in q.items():
+            k = (i1 + i2, j1 + j2)
+            r[k] = r.get(k, arb(0)) + c1 * c2
+    return r
+
+
+def _padd(*ps):
+    r = {}
+    for p in ps:
+        for k, c in p.items():
+            r[k] = r.get(k, arb(0)) + c
+    return r
+
+
+def _pscale(p, s):
+    return {k: c * s for k, c in p.items()}
+
+
+def _abs_moments(n):
+    """E|t|^k, t ~ N(0,1), k = 0..n."""
+    SQ2PI = (2 * arb.pi()).sqrt()
+    out = [arb(1), 2 / SQ2PI]
+    for k in range(2, n + 1):
+        out.append((k - 1) * out[k - 2])
+    return out
+
+
+def _half_moments(n):
+    """int_0^inf x^k phi(x) dx, k = 0..n."""
+    SQ2PI = (2 * arb.pi()).sqrt()
+    out = [arb(1) / 2, 1 / SQ2PI]
+    for k in range(2, n + 1):
+        out.append((k - 1) * out[k - 2])
+    return out
+
+
+def I_abs_bound(lam, poly):
+    """alpha E[ P(|z|, x) ] under the I-integral measure over the WHOLE
+    domain, for a polynomial P with nonnegative coefficients: measure
+    d(z,x) = phi(z) phi(gamma z + x) / Psi(gamma z) dx dz, x >= 0.
+      z >= 0: phi(gz+x) <= phi(x) and 1/Psi(gz) <= 1/Psi(1) + sqrt(2pi)(gz+1)
+              (the two branches gz <= 1 / >= 1 of the Mills bound), so
+              measure <= [1/Psi(1) + sqrt(2pi)(g z + 1)] phi(z) phi(x).
+      z <= 0: 1/Psi(gz) <= 2; t = gz + x over R with x <= |t| + g|z|.
+    All coefficients nonnegative, so term-by-term moment bounds apply."""
+    g = GAMMA_UB
+    deg_z = max(i for (i, j) in poly) + 1
+    deg_x = max(j for (i, j) in poly)
+    zm = _half_moments(deg_z + 1)
+    xm = _half_moments(deg_x)
+    am = _abs_moments(deg_x)
+    wPsi = 1 / Psi(arb(1))
+    SQ2PI = (2 * arb.pi()).sqrt()
+    total = arb(0)
+    # z >= 0
+    for (i, j), c in poly.items():
+        base = zm[i] * wPsi + SQ2PI * (g * zm[i + 1] + zm[i])
+        total += c * base * xm[j]
+    # z <= 0: x^j <= (|t| + g|z|)^j, binomial with absolute t-moments
+    from math import comb
+    for (i, j), c in poly.items():
+        s = arb(0)
+        for k in range(j + 1):
+            s += comb(j, k) * (g ** (j - k)) * zm[i + j - k] * am[k]
+        total += 2 * c * s
+    return ALPHA_UB * total
+
+
+def I_third_fullbound(lam):
+    """Closed-form bound on |I'''(lam)| over a lambda interval (ball):
+    integrand third derivative = E''(g) dg^3 + 3 E'(g) dg ddg + E(g) dddg,
+    with |E| <= 1 + |g|, |E'| <= 1, |E''| <= 3 + 4|g|, and the dg-chain
+    factors expanded with nonnegative (|z|, x)-coefficients."""
+    al = abs(arb(lam))
+    ahi = arb(endpoints(abs(arb(lam)))[1])
+    r2 = 1 - lam * lam
+    b32 = (r2 ** arb(-1.5)).abs_upper() if hasattr(r2, 'abs_upper') else r2 ** arb(-1.5)
+    b32 = arb(endpoints(r2 ** arb(-1.5))[1])
+    b52 = arb(endpoints(r2 ** arb(-2.5))[1])
+    b72 = arb(endpoints(r2 ** arb(-3.5))[1])
+    g = GAMMA_UB
+    beta = arb(endpoints(al / r2.sqrt())[1])
+    onep = 1 + ahi
+    # |g_arg| <= g_c gamma |z| + beta x <= (c <= sqrt((1+l)/(1-l)) worst) ...
+    c_up = arb(endpoints(((1 + ahi) / (1 - ahi)).sqrt())[1])
+    G = {(1, 0): c_up * g, (0, 1): beta}          # |g| bound
+    DG = {(1, 0): g * onep * b32, (0, 1): b32}    # |dg|
+    DDG = _padd({(1, 0): g * b32},
+                _pscale({(1, 0): g * onep, (0, 1): arb(1)}, 3 * ahi * b52))
+    DDDG = _padd(_pscale({(1, 0): g}, 6 * ahi * b52),
+                 _pscale({(1, 0): g * onep, (0, 1): arb(1)},
+                         3 * b52 + 15 * ahi * ahi * b72))
+    ONE = {(0, 0): arb(1)}
+    E2 = _padd(_pscale(ONE, arb(3)), _pscale(G, arb(4)))   # |E''|
+    E0 = _padd(ONE, G)                                     # E
+    DG3 = _pmul(DG, _pmul(DG, DG))
+    term1 = _pmul(E2, DG3)
+    term2 = _pscale(_pmul(DG, DDG), arb(3))
+    term3 = _pmul(E0, DDDG)
+    poly = _padd(term1, term2, term3)
+    from core import endpoints as _ep
+    return I_abs_bound(lam, poly)
