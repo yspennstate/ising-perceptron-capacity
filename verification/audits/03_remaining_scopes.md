@@ -71,3 +71,16 @@ sample certified quantities from the defining formulas in mpmath with no
 shared code: the fixed-point identities, bulk sample values, ray-majorant
 concavity at sample star points, derivative signs on the middle interval,
 and the corrected near-one integrals.
+
+8. The part (a) evaluators (a later completed pass): riemann_gauss (0th
+   order rule with exact cell masses), ell_range and its |D| <= 1 tail,
+   H_star_lower (nonnegative dropped tail), frH_upper (the corrected
+   positive/negative-part mean-value rule; the derivative chain was
+   re-derived, with dD/dm = -2m(Delta-1)/Delta and
+   (D_H)'(A) = 2A(1-m^2)^2/(Delta(Delta+1)^2) both confirmed through the
+   identity D = (Delta-1)^2/(A^2-1)), the box integrals I_upper_box and
+   I_upper_near1 (negative integrands, so domain restriction errs upward,
+   the direction part (a) consumes), I0_lower's tail (conservative by a
+   factor of two, sound), the exact linear parts of P_upper and Q_upper
+   against their defining displays, A_of_tau, the monotone hull in
+   lam_cell, and ell_prime with its sech^2 decay tail. No defects found.
