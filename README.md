@@ -59,7 +59,7 @@ python huang_sweep2.py 6      # Region II stage 2 (~3 minutes)
 python block1_gardner.py
 python block2_near_one.py
 python block3a_grid.py 3      # several hours (a few slow tail cells)
-python block3bc.py par 8      # the Ding-Sun middle interval
+python block3bc.py iso 6      # the Ding-Sun middle interval
 ```
 
 Set `HUANG_GRID_N=2700` in the environment for the sweep resolutions used in
