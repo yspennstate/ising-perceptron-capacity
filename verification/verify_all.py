@@ -25,6 +25,7 @@ import json
 import subprocess
 import sys
 import os
+os.environ.setdefault('HUANG_GRID_N', '2700')   # the resolution of record
 from flint import arb
 from core import set_prec, dec, endpoints, PSI, Q
 

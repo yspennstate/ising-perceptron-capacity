@@ -278,7 +278,7 @@ def main_iso(nw=6):
                 [sys.executable, os.path.join(here0, 'block3bc.py'), 'kcell',
                  repr(lo0), repr(hi0), out0],
                 stdout=sp0.DEVNULL, stderr=sp0.DEVNULL,
-                creationflags=getattr(sp0, 'IDLE_PRIORITY_CLASS', 0)), out0))
+                creationflags=getattr(sp0, 'BELOW_NORMAL_PRIORITY_CLASS', 0)), out0))
         Kv = 0.0
         for p0, out0 in ps:
             p0.wait()
@@ -312,7 +312,7 @@ def main_iso(nw=6):
         while pending and len(procs) < nw:
             i, (kind, lo, hi) = pending.pop(0)
             out = os.path.join(tmp, f"{i}.txt")
-            flags = getattr(subprocess, 'IDLE_PRIORITY_CLASS', 0)
+            flags = getattr(subprocess, 'BELOW_NORMAL_PRIORITY_CLASS', 0)
             p = subprocess.Popen(
                 [sys.executable, os.path.join(here, 'block3bc.py'), 'chunk',
                  kind, repr(lo), repr(hi), out],
@@ -344,19 +344,6 @@ def main_iso(nw=6):
         f.write("\n".join(lines) + "\n")
     if not allok:
         raise SystemExit(1)
-
-
-if __name__ == '__main__':
-    if len(sys.argv) > 1 and sys.argv[1] == 'par':
-        main_par()
-    elif len(sys.argv) > 1 and sys.argv[1] == 'kcell':
-        main_kcell()
-    elif len(sys.argv) > 1 and sys.argv[1] == 'chunk':
-        main_chunk()
-    elif len(sys.argv) > 1 and sys.argv[1] == 'iso':
-        main_iso(int(sys.argv[2]) if len(sys.argv) > 2 else 6)
-    else:
-        main()
 
 
 # ---------------------------------------------------------------------------
@@ -407,3 +394,16 @@ def dPG_cell_neg_mv(tau_lo, tau_hi):
     w = float(lhi) - float(llo)
     slack = dec(f"{K * w / 2 * 1.0000001:.12f}")
     return c + slack.union(-slack)
+
+
+if __name__ == '__main__':
+    if len(sys.argv) > 1 and sys.argv[1] == 'par':
+        main_par()
+    elif len(sys.argv) > 1 and sys.argv[1] == 'kcell':
+        main_kcell()
+    elif len(sys.argv) > 1 and sys.argv[1] == 'chunk':
+        main_chunk()
+    elif len(sys.argv) > 1 and sys.argv[1] == 'iso':
+        main_iso(int(sys.argv[2]) if len(sys.argv) > 2 else 6)
+    else:
+        main()
