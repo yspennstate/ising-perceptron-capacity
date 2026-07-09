@@ -84,3 +84,16 @@ and the corrected near-one integrals.
    factor of two, sound), the exact linear parts of P_upper and Q_upper
    against their defining displays, A_of_tau, the monotone hull in
    lam_cell, and ell_prime with its sech^2 decay tail. No defects found.
+
+9. The near-one block (block2_near_one.py, a later completed pass): the
+   psi-corner choices in the two Lemma 8.2 integrals (sech decreasing and
+   |tanh| increasing in psi), the tail terms, the corollary constant
+   (log(2.711)/2 + 1/2 = 0.99866, clearing its bound by 4e-5), the A >= 100
+   monotone combination, the conservative direction of the domain
+   restriction in the Proposition 8.4 double integral (dropping negative
+   mass), the alpha and gamma corner selections in both inner integrals,
+   and the closing inequality with its monotonicity coefficient were all
+   re-derived. The envelope directions inside the negative-z inner integral
+   rest on the derivation recorded when the constants were first corrected,
+   corroborated by the certified value (-0.4447) agreeing with the order of
+   the value printed in the source paper (-0.45). No defects found.
