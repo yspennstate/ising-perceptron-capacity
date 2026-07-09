@@ -379,20 +379,28 @@ def _pgpp_bound(tau_lo=-0.20, tau_hi=-0.02, ncell=6):
 
 
 def dPG_cell_neg_mv(tau_lo, tau_hi):
-    """Mean-value enclosure of PG' over the cell (negative branch)."""
-    K = _pgpp_bound()
+    """Mean-value enclosure of PG' over the cell (negative branch):
+    dPG(center) + PG''(xi)(lam - lam_center) with |PG''| <= K.  The
+    distance factor makes no centering assumption: it is the certified
+    maximum of |lam - lam_center| over the cell, from the lam hulls of
+    the cell and of the (rounded) center themselves."""
+    K = arb(_pgpp_bound())
     lo = float(tau_lo)
     hi = float(tau_hi)
     mid = 0.5 * (lo + hi)
-    c = dPG_cell(f"{mid:.8f}", f"{mid:.8f}", bits=(20, 17))
+    ms = f"{mid:.8f}"
+    c = dPG_cell(ms, ms, bits=(20, 17))
     if c is None:
         return None
-    # lambda half-width of the cell (ell' <= 1.1 on this range is NOT
-    # assumed; use the certified lam_cell hull)
     lamb = dsfun.lam_cell(dec(f"{lo:.6f}"), dec(f"{hi:.6f}"))
     llo, lhi = endpoints(lamb)
-    w = float(lhi) - float(llo)
-    slack = dec(f"{K * w / 2 * 1.0000001:.12f}")
+    r = dsfun.lam_cell(dec(ms), dec(ms))
+    rlo, rhi = endpoints(r)
+    dist = arb(lhi) - arb(rlo)
+    d2 = arb(rhi) - arb(llo)
+    if d2 > dist:
+        dist = d2
+    slack = K * dist
     return c + slack.union(-slack)
 
 
