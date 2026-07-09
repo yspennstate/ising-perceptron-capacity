@@ -85,7 +85,8 @@ Rigorous progress converged on the constant from both sides. Ding and
 Sun \cite{ding2018capacity} proved
 $\liminf_N \PP(M_N/N \ge \alpha) > 0$ for every $\alpha < \alpha_\star$;
 combined with the sharp threshold sequence of Xu \cite{xu2021sharp} and
-Nakajima and Sun \cite{nakajima2023sharp}, this gives the lower bound with
+Nakajima and Sun \cite{nakajima2023sharp} (see also
+\cite{altschuler2024capacity}), this gives the lower bound with
 high probability. Huang \cite{huang2024capacity} proved
 $\PP(M_N/N \ge \alpha) \to 0$ for every $\alpha > \alpha_\star$. Both
 results are conditional. The Ding--Sun theorem assumes their Condition~1.2:
@@ -289,8 +290,10 @@ $H\!\restriction_{\partial K}=0$.
 
 Two consequences make \eqref{eq:moment-reduction} checkable. First, the
 constraint term $G$ depends on $(a_1,a_2)$ explicitly, through
-$V_s = \bigl(-\tfrac{a_2}{q_0}\widehat H - \tfrac{a_1}{\psi_0}\bN\bigr)/D
- + s\bN$, $D=\sqrt{1-a_2^2/q_0}$, a one-dimensional Gaussian integral; and
+$V_s = \bigl(-\tfrac{a_2}{q_0}\sqrt{q_0}\,Z - \tfrac{a_1}{\psi_0}\bN\bigr)/D
+ + s\bN$ with $Z$ standard Gaussian,
+$\bN=\cE(-\gamma Z)/\sqrt{1-q_0}$ for $\gamma=\sqrt{q_0/(1-q_0)}$, and
+$D=\sqrt{1-a_2^2/q_0}$, a one-dimensional Gaussian integral; and
 $G\le \tfrac12 s^2\psi_0 + \alpha_\star\E\log\Psi(V_s)$ for \emph{any} fixed
 $s$, so a per-cell choice of $s$ gives a certified upper bound with no inner
 optimization. Second, convex duality gives, for \emph{every} dual point
@@ -370,8 +373,8 @@ places it entirely inside the star (maximal corner distance below the
 minimal star radius over the cell's angular range). Both stages terminate
 with every leaf cell strictly negative.
 
-\emph{Region I (the maximizer).} On $E$ the value is genuinely $0$ at
-$a^\star$, so no direct sign check can succeed there, and interval evaluation
+\emph{Region I (the maximizer).} Near the maximizer the value is genuinely
+$0$ at $a^\star$, so no direct sign check can succeed there, and interval evaluation
 of any Hessian of the problem over a two-dimensional box fails for a
 structural reason: $\nabla^2\Phi(1,0)$ has condition number $\approx 82$
 (the pair $(X,\tanh X)$ is strongly correlated), so the dual image of an
@@ -390,7 +393,8 @@ Gardner stationarity and the tilt equation) $\varphi_v(0)=0$ and
 $\varphi_v'(0)=0$. Hence certifying $\varphi_v''\le 0$ on $[0,T(v)]$ proves
 $\mathcal S_\star\le0$ on the segment, and a fan of direction cells covering
 the circle proves it on the star region
-$\{a^\star+tv:\, 0\le t\le T(v)\}\supseteq E$. The second derivative splits
+$\{a^\star+tv:\, 0\le t\le T(v)\}$, which contains every cell the stage-2
+sweep skips. The second derivative splits
 into a constraint part---certified fixed-grid integrals over the (thin) ray
 piece, in which no dual variable appears---and the entropy part
 $-v^\top[\nabla^2\Phi(\lambda(x))]^{-1}v$, which we bound WITHOUT tracking
@@ -431,7 +435,7 @@ The pieces combine as follows.
 \emph{Upper bound.} Huang's Theorem~\ref{thm:main} reduces the capacity upper
 bound at $\kappa=0$ to four numerical conditions. His other three
 numerical conditions (the parameter rectangle, the AMP constants, and the
-local concavity constants) were verified by Huang in 	exttt{python-flint} and,
+local concavity constants) were verified by Huang in \texttt{python-flint} and,
 for the first, rest on Ding--Sun Proposition~1.3, which we re-verify in
 \S\ref{sec:gardner} (Block~1). His Condition~1.3 is the statement
 $\mathcal S_\star\le 0$ on $\R^2$. In moment coordinates
@@ -486,7 +490,7 @@ certificates as fixed rationals; no certified inequality depends on it.
 
 \emph{Inventory.} The final runs comprise: the parameter rectangle,
 13~checks; Huang Region~II, $873$ leaf cells (stage~1, the moment body minus
-a coarse box) and $1436$ leaf cells (stage~2, the box minus the star), all
+a coarse box) and $1337$ leaf cells (stage~2, the box minus the star), all
 strictly negative; Huang Region~I, $836$ band certificates covering the star
 with zero failures; Ding--Sun part~(a), $118$ grid cells; the corrected
 near-one block, $10$ checks; and the middle-interval derivative and
@@ -513,11 +517,10 @@ formulas. All certificates reported here postdate both corrections.
 \end{remark}
 
 \section*{Funding and declarations}
-The funding and grant information should be verified by the author before
-submission. In prior work the author has listed support from the European
-Research Council under the European Union's Horizon 2022 research and
-innovation programme, the Simons Foundation, Heights Labs, and Israel Science
-Foundation grants 2258/19 and 4101/25.
+The author acknowledges support from the European Research Council under the
+European Union's Horizon 2022 research and innovation programme, the Simons
+Foundation, Heights Labs, and Israel Science Foundation grants 2258/19 and
+4101/25.
 
 Most of the work reported here was done by Fable~5 (Anthropic), an AI
 system: the mathematical theory (the moment-coordinate reduction, the ray
