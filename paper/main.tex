@@ -34,35 +34,40 @@ verification of the outstanding numerical conditions}
 \maketitle
 
 \begin{abstract}
-Krauth and M\'ezard (1989) predicted that the storage capacity of the Ising
-perceptron is $\alpha_\star N + o(N)$ for an explicit constant
-$\alpha_\star \approx 0.833$. Ding and Sun proved the matching lower bound,
+Krauth and M\'ezard (1989) predicted that the maximum number of storable
+patterns in the Ising perceptron is $M_N=\alpha_\star N + o(N)$ for an
+explicit constant $\alpha_\star \approx 0.833$. Ding and Sun proved the matching lower bound,
 and Huang recently proved the matching upper bound; each result is
-conditional on a numerical hypothesis about an explicit low-dimensional
-variational problem, stated by those authors and checked by them only in
-floating point. Huang's own rigorous interval arithmetic verified every
-numerical constant in his upper bound \emph{except} the main
-Condition~1.3---the nonpositivity, over the whole plane, of a two-variable
-rate function whose supremum is not attained. That unbounded, degenerate
-optimization is the reason the capacity upper bound remained conditional.
+conditional on an outstanding numerical hypothesis about an explicit
+low-dimensional variational problem. Their global sign clauses were supported
+by ordinary floating-point computations; Ding--Sun's final hypothesis also
+contains curvature and endpoint-derivative clauses. Huang separately used
+rigorous interval arithmetic for the other numerical inputs, but inherited the Ding--Sun
+parameter rectangle and left open the main Condition~1.3---the nonpositivity, over the
+whole plane, of a two-variable rate function with a degenerate point and
+slowly approaching tails. That
+unbounded optimization is the reason the capacity upper bound remained
+conditional.
 
-We verify the condition in full. Reparametrizing Huang's functional into the
+We verify both outstanding conditions in full. Reparametrizing Huang's functional into the
 moment coordinates of the pair $(X,\tanh X)$ compresses the plane onto a
 \emph{compact} convex body and turns the entropy term into a per-cell linear
 function by convex duality; certified sweeps then establish nonpositivity on
-the whole body away from a star-shaped region around the single degenerate
-maximizer. On the star itself no box enclosure can work---the tilted
+the whole body away from a star-shaped region around the distinguished
+degenerate point. On the star itself no box enclosure can work---the tilted
 covariance $\nabla^2\Phi$ is nearly singular and its inverse loses an
 essential cancellation---so we certify concavity of a majorant along rays
-from the maximizer, bounding the entropy Hessian by the explicit matrix
-$\E[ff^\top\max_\Lambda \mathrm{sech}^2(\lambda\cdot f)]$ over sublevel-set
+from that point, bounding the entropy Hessian by a certified majorant of
+$\E[ff^\top\max_{b\in L}\operatorname{sech}^2(b\cdot f)]$ over sublevel-set
 localizations of the dual that are themselves certified by one-dimensional
-sweeps; nothing is ever inverted. The same machinery, in one variable,
-verifies the Ding--Sun Condition~1.2 including the degenerate zero, and we
+sweeps; no interval enclosure of the nearly singular covariance is inverted.
+The same machinery, in one variable,
+verifies the full Ding--Sun Condition~1.2, including its strict-curvature
+clause at the degenerate zero and its one-sided derivative clause at the
+singular endpoint, and we
 re-establish the parameter rectangle
 $(\alpha_\star, q_\star, \psi_\star)$ on which both papers rest. Together
-these make the Krauth--M\'ezard prediction for the Ising perceptron capacity
-unconditional.
+these close the stated conditional reduction for the Krauth--M\'ezard prediction.
 \end{abstract}
 
 \section{Introduction}
@@ -76,7 +81,7 @@ cube
 \]
 and its capacity is $M_N/N$, where $M_N$ is the largest $M$ with
 $S_N^M \neq \emptyset$. Krauth and M\'ezard \cite{krauth1989storage} analyzed
-this model with the replica method and predicted that $M_N/N$ converges in
+the Bernoulli-disorder version with the replica method and predicted that $M_N/N$ converges in
 probability to an explicit constant $\alpha_\star \approx 0.83307860$,
 defined below. The prediction has been one of the standard test problems for
 making the cavity method rigorous ever since.
@@ -84,54 +89,69 @@ making the cavity method rigorous ever since.
 Rigorous progress converged on the constant from both sides. Ding and
 Sun \cite{ding2018capacity} proved
 $\liminf_N \PP(M_N/N \ge \alpha) > 0$ for every $\alpha < \alpha_\star$;
-combined with the sharp threshold sequence of Xu \cite{xu2021sharp} and
-Nakajima and Sun \cite{nakajima2023sharp} (see also
-\cite{altschuler2024capacity}), this gives the lower bound with
-high probability. Huang \cite{huang2024capacity} proved
+combined with the sharp-threshold theorem of Nakajima and Sun
+\cite{nakajima2023sharp}, this gives the lower bound with high probability.
+Their general-subgaussian result extends Xu's Bernoulli-model theorem
+\cite{xu2021sharp}; see also \cite{altschuler2024capacity}. Huang
+\cite{huang2024capacity} proved
 $\PP(M_N/N \ge \alpha) \to 0$ for every $\alpha > \alpha_\star$. Both
-results are conditional. The Ding--Sun theorem assumes their Condition~1.2:
-a certain function $\lambda \mapsto \mathscr{S}_\star(\lambda)$, arising as
-the exponential rate of a restricted second moment, is negative except at
-its two degenerate zeros $\lambda \in \{0, 1\}$. Huang's theorem assumes his
+results are conditional. The Ding--Sun theorem assumes their full
+Condition~1.2: a certain function
+$\lambda \mapsto \mathscr{S}_\star(\lambda)$, arising as the exponential rate
+of a restricted second moment, is negative except at its degenerate zero
+$\lambda=0$ and singular endpoint zero $\lambda=1$, with
+$\mathscr S_\star''(0)<0$ and
+$\lim_{\lambda\uparrow1}\mathscr S_\star'(\lambda)>0$. Huang's theorem assumes his
 Condition~1.3: a two-variable function
 $(\lambda_1,\lambda_2) \mapsto \mathcal{S}_\star(\lambda_1,\lambda_2)$,
 the rate function of a planted first moment, is nonpositive on all of
-$\R^2$, vanishing at the single point $(1,0)$. Both papers verified their
-conditions numerically, in ordinary floating-point arithmetic, and stated
-them as hypotheses. Huang's second arXiv version added rigorous interval
-arithmetic for every numerical constant in his proof except Condition~1.3
-itself; Ding and Sun wrote that they intended to supply a rigorous
-verification in a later version of their paper, which did not appear.
+$\R^2$, with equality at $(1,0)$. The unresolved global sign conditions were
+supported only by ordinary floating-point computations and remained stated
+as hypotheses. Huang's second arXiv version rigorously verified all other
+numerical conditions in Theorem~3.6 at $\kappa=0$, but explicitly excluded
+Condition~1.3 itself. The final 2025 journal version of Ding--Sun retained
+Condition~1.2 as a hypothesis; the original arXiv version described a check using nonrigorous
+numerical integration.
 
 This paper closes the remaining gap: we verify both conditions, and
 re-derive the parameter rectangle
 \[
-  \alpha_\star \in [0.833078599,\, 0.833078600], \qquad
-  q_\star \in [0.56394907949,\, 0.56394908030], \qquad
-  \psi_\star \in [2.5763513100,\, 2.5763513224]
+\begin{aligned}
+  \alpha_\star &\in [0.833078599,\, 0.833078600], \qquad&
+  q_\star &\in [0.56394907949,\, 0.56394908030],\\
+  \psi_\star &\in [2.5763513100,\, 2.5763513224]. &&
+\end{aligned}
 \]
-of \cite[Proposition~1.3]{ding2018capacity}, on which every numerical
-statement in both papers (and in this one) rests, in rigorous interval
+of \cite[Proposition~1.3]{ding2018capacity}, on which the two papers'
+$\kappa=0$ threshold calculations (and ours) rest, in rigorous interval
 arithmetic. Consequently:
 
 \begin{theorem}\label{thm:main}
 For the Ising perceptron at $\kappa = 0$ with Gaussian disorder,
-$M_N/N \to \alpha_\star$ in probability. The same holds for i.i.d.
-subgaussian disorder with mean zero and unit variance, in particular for
-$\pm 1$ entries, by the universality theorem of \cite{nakajima2023sharp}.
+$M_N/N \to \alpha_\star$ in probability. The same holds for disorder with
+i.i.d. mean-zero, unit-variance subgaussian entries, in particular for $\pm 1$
+entries, by the universality theorem of \cite{nakajima2023sharp}.
 \end{theorem}
+
+\begin{remark}[Status]
+This manuscript presents a new computer-assisted proof claim. Its
+source-bound package has passed the included internal verifiers and a separate
+second-system audit, but it has not yet been independently reproduced or peer
+reviewed.
+\end{remark}
 
 The verification is computer-assisted in the sense that finitely many
 inequalities between explicitly defined real numbers are established by
 interval arithmetic (we use the ball arithmetic of Arb via python-flint,
-with certified adaptive quadrature for all integrals). It is not, however,
+with certified adaptive quadrature where appropriate and certified fixed-grid
+mean-value quadrature for Huang's $T$ evaluations). It is not, however,
 a matter of running an integrator over the stated conditions. Three
 genuinely mathematical obstructions have to be removed first, and most of
 this paper is devoted to them.
 
-First, Huang's condition is a statement over the whole plane, and the
-supremum at infinity is not attained: $\mathcal{S}_\star$ tends to zero
-along the degenerate directions only polynomially. Reparametrizing by the
+First, Huang's condition is a statement over the whole plane. The
+distinguished point $(1,0)$ has value zero, while $\mathcal{S}_\star$ also tends to zero along
+degenerate directions only polynomially. Reparametrizing by the
 moments of the pair $(X,\tanh X)$, $X\sim N(0,\psi_\star)$
 (\S\ref{sec:huang-moments}), maps the plane onto a bounded convex body and
 removes the tail entirely, while convex duality turns the entropy term into
@@ -146,11 +166,14 @@ its inverse---which the curvature of the entropy term is---loses an
 essential cancellation in interval arithmetic. We certify concavity of a
 majorant along rays from the maximizer instead, bounding the entropy Hessian
 by an explicit matrix over sublevel-set localizations of the dual variable;
-nothing is ever inverted (\S\ref{sec:huang-sweep}). The pinned value and
+no interval enclosure of the nearly singular covariance is inverted
+(\S\ref{sec:huang-sweep}). The explicit positive-definite majorant is inverted
+by its certified $2\times2$ determinant. The pinned value and
 gradient at the center are exact identities of the fixed point and require
-no numerics. For the Ding--Sun condition the degenerate points are handled
-by their own derivative and second-derivative analysis and a corrected
-near-$\lambda=1$ chain, whose numerical inputs we certify (\S\ref{sec:ds},
+no numerics. For the Ding--Sun condition the degenerate zero at $\lambda=0$
+is handled by derivative and second-derivative analysis, while the singular
+endpoint $\lambda=1$ uses a corrected near-one chain whose numerical inputs
+we certify (\S\ref{sec:ds},
 \S\ref{sec:assembly}).
 
 Third, the interval evaluations themselves have to be organized so that
@@ -165,12 +188,14 @@ evaluation subsumes the manual corner analyses mechanically.
 
 \medskip
 \noindent
-The verification programs, the logs of the certified runs, and instructions
-to reproduce every number in this paper are available at
-\cite{repo}. All decimal constants
-enter the programs as exact rationals; all comparisons are between balls
-whose correctness is guaranteed by Arb. We follow the numbering of
-\cite{ding2018capacity} and \cite{huang2024capacity} for their statements.
+The verification programs, canonical certificates, complete raw record trees,
+and instructions to reproduce every number in this paper are available at
+\cite{repo}. Every proof-relevant geometric value is frozen as an exact
+rational, with the stated padding, and every certified sign comparison is
+between balls whose correctness is guaranteed by Arb. We follow the journal
+numbering of \cite{ding2018capacity} and the numbering of
+\cite{huang2024capacity}, except where the Ding--Sun arXiv version is named
+explicitly.
 
 \section{The statements being verified}\label{sec:statements}
 
@@ -185,13 +210,15 @@ $\cE = \varphi/\Psi$, set for $q\in[0,1)$
   R_\alpha(q) = \alpha\,\E F_{1-q}(\sqrt q Z)^2,
 \]
 and the Gardner free energy $\sG(\alpha,q,\psi)$ of
-\cite[eq.~(1.6)]{ding2018capacity}. The
+\cite[eq.~(1.4)]{ding2018capacity}. The
 threshold $\alpha_\star$ is the root of $\sG$ along the fixed point
 $q=P(\psi),\ \psi=R_\alpha(q)$; Ding--Sun Proposition~1.3 makes this precise
 and pins the rectangle of \S\ref{sec:gardner}. Huang's Condition~1.3 is
 $\mathcal S_\star\le 0$, the object of \S\ref{sec:huang-moments}--%
 \ref{sec:huang-sweep}; Ding--Sun's Condition~1.2 is
-$\mathscr S_\star(\lambda)<0$ for $\lambda\notin\{0,1\}$, the object of
+$\mathscr S_\star(\lambda)<0$ for $\lambda\notin\{0,1\}$ together with
+$\mathscr S_\star''(0)<0$ and
+$\lim_{\lambda\uparrow1}\mathscr S_\star'(\lambda)>0$, the object of
 \S\ref{sec:ds}. \S\ref{sec:assembly} records which theorem consumes which
 verified fact.
 
@@ -212,37 +239,113 @@ $q_\star,\psi_\star$ intervals rigorously.
 
 \section{The Ding--Sun condition}\label{sec:ds}
 
-Ding--Sun's Condition~1.2, $\mathscr S_\star(\lambda)=\mathcal H(\lambda)
-+\mathcal P(\lambda)+\mathcal A(\lambda)<0$ for $\lambda\notin\{0,1\}$, is
-one-dimensional and mirrors Huang's: a value sweep on the bulk and a local
-second-derivative analysis at the two degenerate zeros $\lambda=0,\lambda=1$.
-Since $\mathcal A\le 0$, it suffices to bound $\mathcal H+\mathcal P$ on the
+Ding--Sun's Condition~1.2, on
+$[\lambda_{\min},1]$ with $\lambda_{\min}:=\ell(0)$, is
+$\mathscr S_\star(\lambda)=\mathcal H(\lambda)
++\mathcal P(\lambda)+\mathcal A(\lambda)<0$ for $\lambda\notin\{0,1\}$,
+with $\mathscr S_\star''(0)<0$ and
+$\lim_{\lambda\uparrow1}\mathscr S_\star'(\lambda)>0$.
+It is
+one-dimensional and mirrors Huang's: a value sweep on the bulk, a local
+second-derivative analysis at the degenerate zero $\lambda=0$, and
+a separate singular endpoint estimate at $\lambda=1$.
+Since $\mathcal A\le 0$, with
+$\mathcal A(0)=\mathcal A'(0)=0$ and $\mathcal A''(0)\le0$
+\cite[discussion following eq.~(2.35)]{ding2018capacity}, the certified
+central bound $(\mathcal H+\mathcal P)''<0$ implies
+$\mathscr S_\star''(0)<0$. Ding--Sun's exact endpoint calculation
+\cite[proof of Theorem~1.4]{ding2018capacity} gives the
+stronger statement $\mathscr S_\star'(\lambda)\to+\infty$ as
+$\lambda\uparrow1$; it is analytic and needs no numerical certificate. For
+the remaining global sign assertion, it suffices to bound
+$\mathcal H+\mathcal P$ on the
 positive branch and, on the negative branch, the tilted majorant
 $\mathcal H+\mathcal Q$ (Ding--Sun's $s=0.2$ shift). We build the certified
 evaluators (\texttt{dsfun.py}): $\mathcal H(\lambda)=\mathfrak H(A(\lambda))$
-through the pair-entropy $\Gamma$ and the map $A=\exp(2\,\mathrm{atanh}\,\lambda)$,
+through the pair-entropy $\Gamma$ and the inverse map
+$A(\lambda)=\ell^{-1}(\lambda)$. The computational grid is parametrized by
+$A(\tau)=\exp(2\,\mathrm{atanh}\,\tau)$ and
+$\lambda(\tau)=\ell(A(\tau))$,
 with the well-conditioned $D_H(A)=(1-m^2)\bigl(1-2/(\Delta+1)\bigr)$ that
 removes the interval blow-up of the raw $(A^2-1)/(\Delta+1)^2$ form; and
 $\mathcal P,\mathcal Q$ through the double integral $I_s(\lambda)$, evaluated
 by nested certified quadrature with mean-value corrections. The bulk cells
-verify. Near $\lambda=1$ we follow Ding--Sun's own chain (their Lemma~8.2,
-Corollary~8.3, Propositions~8.4 and~8.1) with corrected constants: the two
-integrals behind their Lemma~8.2 evaluate to $2.678\ldots$ and
-$3.162\ldots$, not the printed $1.78$ and $4.3$ (the printed consequence
-$1-\ell(A)\le 1.83/A$ is already inconsistent with their verified
-$1-\ell(100)>0.025$), and the double integral of their Proposition~8.4 is
-$-0.4447\ldots$ rather than $-0.45$. With the certified values
-($1-\ell(A)\le 2.711/A$ for $A\ge100$, corollary constant $0.9987$, closing
-coefficient $1.2837$) the same proof gives
-$\mathcal H+\mathcal P<\mathcal H(1)+\mathcal P(1)$ on $[0.982,1)$, and the
-part~(a) grid reaches $\lambda(0.99)=0.98665\ldots>0.982$, so the covering
-of $[\lambda_{\min},1)$ is unchanged. The neighborhood of $\lambda=0$ is
-handled by the derivative and second-derivative certificates described in
-\S\ref{sec:assembly}.
+verify. Near $\lambda=1$ the printed constants in Lemma~8.2 and
+Proposition~8.4 of the Ding--Sun arXiv version do not pass interval evaluation:
+their respective integral
+values are $2.678\ldots$, $3.162\ldots$, and $-0.4447\ldots$.  The following
+records the corrected implication chain, rather than using those constants as
+an unexplained numerical input.
+
+\begin{lemma}[Corrected near-one bound]\label{lem:ds-near-one}
+For $\lambda=1-\iota$ and $0<\iota\le0.018$,
+\[
+  \mathcal H(\lambda)+\mathcal P(\lambda)
+  <\mathcal H(1)+\mathcal P(1)
+  =-\sG_\star(\alpha_\star)=0.
+\]
+At the terminal cell's upper $\tau$-boundary, the certified lower endpoint of
+$\lambda(0.99)$ is $0.98665\ldots>0.982$, so this neighborhood overlaps the
+bulk sweep.
+\end{lemma}
+\begin{proof}
+Put $\iota(A)=1-\ell(A)$ and $A(s)=\iota^{-1}(s)$.  The two positive
+one-dimensional integrals in Lemma~8.2 of the Ding--Sun arXiv version, including explicit
+$|z|\ge9$ tails, give uniformly over the parameter rectangle
+\[
+  1-\ell(A)\le \frac{2.679}{A}+\frac{3.17}{A^2}
+  \le\frac{2.711}{A}\qquad(A\ge100),
+  \qquad 1-\ell(100)>0.025.
+\]
+Since $\iota(A)$ is decreasing, $A(s)>100$ and $A(s)\le2.711/s$ for
+$0<s\le0.025$.  Ding--Sun's exact entropy derivative identity therefore
+gives
+\[
+ \frac{\dd}{\dd s}\mathcal H(1-s)
+ =\frac{1-q_\star}{2}\log A(s)
+ \le\frac12\log\frac{2.711}{s}.
+\]
+After integration, using
+$\tfrac12\log(2.711)+\tfrac12<0.9987$,
+\begin{equation}\label{eq:ds-near-h}
+ \mathcal H(1-\iota)-\mathcal H(1)
+ \le0.9987\,\iota+\frac{\iota}{2}\log\frac1\iota.
+\end{equation}
+The rescaled double integral in Proposition~8.4 of the Ding--Sun arXiv version and its positive
+linear term give, on $0<\iota\le0.025$,
+\begin{equation}\label{eq:ds-near-p}
+ \mathcal P(1-\iota)-\mathcal P(1)
+ \le0.285\,\iota-0.4446\sqrt\iota.
+\end{equation}
+Here the envelope directions are important.  The argument of $\log\Psi$ is
+chosen to give an upper envelope, while its positive density ratio is replaced
+by a certified lower envelope.  Since $\log\Psi\le0$, the product is still an
+upper bound.  The factors $\alpha_\star\sqrt{1+\lambda}$ are likewise replaced
+by their lower endpoints, and deleting the complement of
+$[-9,9]\times[0,9]$ deletes only nonpositive mass and raises the integral.
+The negative-$z$ comparison also uses the separately checked pin
+$\gamma_{\rm ub}<\psi_{\rm ub}$.  Thus no unrecorded tail or parameter
+direction can reverse \eqref{eq:ds-near-p}.
+
+Combining \eqref{eq:ds-near-h}--\eqref{eq:ds-near-p} and dividing by
+$\sqrt\iota$ leaves
+\[
+ f(\iota)=\sqrt\iota\left(1.2837+\frac12\log\frac1\iota\right)-0.4446.
+\]
+Its derivative has the sign of
+$1.2837+\tfrac12\log(1/\iota)-1>0$, and the certified endpoint evaluation is
+$f(0.018)<-0.00287$.  Hence $f(\iota)<0$ throughout the claimed interval.
+Finally, the last part~(a) grid cell certifies
+$\lambda_{\rm lo}=0.98665\ldots>0.982$, providing the stated overlap.
+\end{proof}
+
+The neighborhood of $\lambda=0$ is handled by the derivative and
+second-derivative certificates described in \S\ref{sec:assembly}.
 
 \section{Huang's condition in moment coordinates}\label{sec:huang-moments}
 
-Huang's Condition~1.3 asks that
+Set $q_0=q_\star$ and $\psi_0=\psi_\star$; every computation below uses
+balls covering their certified intervals.  Huang's Condition~1.3 asks that
 \[
   \mathcal{S}_\star(\lambda_1,\lambda_2)
   = \inf_{s\ge 0}\Bigl\{ \tfrac12 s^2\psi_0 + \ent(\Lambda_{\lambda_1,\lambda_2})
@@ -255,10 +358,11 @@ profile only through the two moments
 \[
   a_1 = \E[X\,\Lambda], \qquad a_2 = \E[M\,\Lambda].
 \]
-The plane $\R^2$ of $(\lambda_1,\lambda_2)$ is unbounded, and the supremum is
-not attained: along the degenerate directions $\mathcal{S}_\star\to 0^-$ only
-polynomially. Verifying a nonpositivity statement over an unbounded domain by
-interval arithmetic is the obstruction that stopped a direct check.
+The plane $\R^2$ of $(\lambda_1,\lambda_2)$ is unbounded. Huang's identities
+give value zero at the distinguished degenerate point $(1,0)$; along some unbounded degenerate
+directions the value also approaches zero only polynomially. Verifying a
+nonpositivity statement over this domain by interval arithmetic is the
+obstruction that stopped a direct check.
 
 We remove it by changing coordinates. The profile
 $\Lambda_{\lambda_1,\lambda_2}$ is exactly the maximum-entropy profile for its
@@ -271,11 +375,14 @@ family in the first place), so
 \]
 and therefore
 \begin{equation}\label{eq:moment-reduction}
+\begin{aligned}
   \sup_{\lambda_1,\lambda_2} \mathcal{S}_\star(\lambda_1,\lambda_2)
-  = \sup_{(a_1,a_2)\in K} \bigl[\, H(a_1,a_2) + G(a_1,a_2) \,\bigr],
-  \qquad
-  G(a_1,a_2) = \inf_{s\ge0}\bigl\{\tfrac12 s^2\psi_0
+  &\le \sup_{(a_1,a_2)\in K}
+       \bigl[\, H(a_1,a_2) + G(a_1,a_2) \,\bigr],\\
+  G(a_1,a_2)
+  &= \inf_{s\ge0}\bigl\{\tfrac12 s^2\psi_0
      + \alpha_\star\, \E\log\Psi(V_s)\bigr\}.
+\end{aligned}
 \end{equation}
 The key point is that the new domain
 \[
@@ -287,15 +394,31 @@ is contained in the rectangle $|a_1|\le\E|X|$, $|a_2|\le\E|M|$. The unbounded
 tail of the $(\lambda_1,\lambda_2)$ plane is compressed onto $\partial K$,
 where the profiles are saturated ($|\Lambda|=1$) and hence
 $H\!\restriction_{\partial K}=0$.
+Also $\E|M|<\sqrt{\E M^2}=\sqrt{q_0}$, so
+$D=\sqrt{1-a_2^2/q_0}$ below is real and uniformly positive on $K$.
 
 Two consequences make \eqref{eq:moment-reduction} checkable. First, the
-constraint term $G$ depends on $(a_1,a_2)$ explicitly, through
-$V_s = \bigl(-\tfrac{a_2}{q_0}\sqrt{q_0}\,Z - \tfrac{a_1}{\psi_0}\bN\bigr)/D
- + s\bN$ with $Z$ standard Gaussian,
-$\bN=\cE(-\gamma Z)/\sqrt{1-q_0}$ for $\gamma=\sqrt{q_0/(1-q_0)}$, and
-$D=\sqrt{1-a_2^2/q_0}$, a one-dimensional Gaussian integral; and
-$G\le \tfrac12 s^2\psi_0 + \alpha_\star\E\log\Psi(V_s)$ for \emph{any} fixed
-$s$, so a per-cell choice of $s$ gives a certified upper bound with no inner
+constraint term $G$ depends on $a=(a_1,a_2)$ explicitly, through
+\[
+ \begin{aligned}
+ V_s(a)&=
+ \frac{-\frac{a_2}{q_0}\sqrt{q_0}\,Z
+       -\frac{a_1}{\psi_0}\bN}{D}+s\bN,
+ &D&=\sqrt{1-a_2^2/q_0},\\
+ \bN&=\frac{\cE(-\gamma Z)}{\sqrt{1-q_0}},
+ &\gamma&=\sqrt{q_0/(1-q_0)},
+ \end{aligned}
+\]
+where $Z$ is standard Gaussian.  For the resulting one-dimensional Gaussian
+integral, write
+\[
+ \mathcal T(a,s):=\E\log\Psi(V_s(a)).
+\]
+For every fixed $s$,
+\[
+ G(a)\le \tfrac12 s^2\psi_0 + \alpha_\star\mathcal T(a,s).
+\]
+Thus a per-cell choice of $s$ gives a certified upper bound with no inner
 optimization. Second, convex duality gives, for \emph{every} dual point
 $(b_1,b_2)$,
 \begin{equation}\label{eq:dual-bound}
@@ -308,13 +431,22 @@ fixed rational) turns the entropy into an explicit linear function of
 $(a_1,a_2)$, tight on the cell.
 
 \begin{lemma}[Moment reduction]\label{lem:moment}
-With $H$ and $G$ as above, $\sup_{\lambda_1,\lambda_2}\mathcal S_\star
-=\sup_{(a_1,a_2)\in K}(H+G)$, and \eqref{eq:dual-bound} holds for all
-$(b_1,b_2)$.
+Write $\boldsymbol\lambda=(\lambda_1,\lambda_2)$ and let
+$a(\boldsymbol\lambda)$ denote its two moment coordinates. With $H$ and $G$
+as above,
+\[
+  \mathcal S_\star(\boldsymbol\lambda)
+  =H(a(\boldsymbol\lambda))+G(a(\boldsymbol\lambda)),
+  \qquad
+  \sup_{\boldsymbol\lambda\in\R^2}\mathcal S_\star(\boldsymbol\lambda)
+  \le\sup_{a\in K}(H(a)+G(a)),
+\]
+and \eqref{eq:dual-bound} holds for all $(b_1,b_2)$.
 \end{lemma}
 \begin{proof}
-Fix $(\lambda_1,\lambda_2)$ and write $\Lambda=\Lambda_{\lambda_1,\lambda_2}$,
-$a_i=a_i(\lambda)$. The constraint term of $\mathcal S_\star$ depends on
+Fix $\boldsymbol\lambda=(\lambda_1,\lambda_2)$ and write
+$\Lambda=\Lambda_{\lambda_1,\lambda_2}$,
+$a_i=a_i(\boldsymbol\lambda)$. The constraint term of $\mathcal S_\star$ depends on
 $\Lambda$ only through $(a_1,a_2)$ (it enters
 $\mathcal S_\star(\Lambda,s)$ only via $\E[M\Lambda]=a_2$ and
 $\E[X\Lambda]=a_1$, in the notation of \S\ref{sec:huang-moments}), so
@@ -327,15 +459,101 @@ by pointwise optimization of the Lagrangian
 $\mathrm{ent}_2(\tfrac{1+\Lambda}2)+(\lambda_1 X+\lambda_2 M)\Lambda$, the
 maximizer $\Lambda^\ast=\tanh(\lambda_1 X+\lambda_2 M)=\Lambda$. Hence
 $\ent(\Lambda)=H(a_1,a_2)$ and
-$\mathcal S_\star(\lambda_1,\lambda_2)=(H+G)(a_1(\lambda),a_2(\lambda))$.
-Taking suprema and noting that $(a_1(\lambda),a_2(\lambda))$ ranges over a
-dense subset of $K$ (every extreme point of $K$ is a limit of such profiles)
-gives the first claim. For \eqref{eq:dual-bound}, strong duality for this
-concave program reads $H(a)=\min_b[\Phi(b)-b\cdot a]$, where the inner
+$\mathcal S_\star(\lambda_1,\lambda_2)
+=(H+G)(a_1(\boldsymbol\lambda),a_2(\boldsymbol\lambda))$.
+Taking suprema gives the stated one-sided inequality; no density assertion
+about the finite-parameter image is needed. For \eqref{eq:dual-bound}, weak
+duality (and strong duality in the interior) gives
+$H(a)\le\inf_b[\Phi(b)-b\cdot a]$, where the inner
 maximization of the Lagrangian over $|\Lambda|\le1$ gives
 $\max_\Lambda[\mathrm{ent}_2(\tfrac{1+\Lambda}2)+\theta\Lambda]=\log2\cosh\theta$
 at $\theta=b_1X+b_2M$; the stated inequality is the weak-duality direction,
 valid for every $b$.
+\end{proof}
+
+The ray argument below differentiates $H$, so it also requires a finite dual
+throughout the star.  This does not follow merely from compactness of $K$; we
+certify a uniform interior neighborhood constructively.
+
+\begin{lemma}[Uniform interior neighborhood]\label{lem:star-interior}
+Uniformly over the certified interval for $\psi_0$, let $f=(X,\tanh X)$ and
+$a^\star=\E[f\tanh X]=\nabla\Phi(1,0)$.  Then
+\[
+ B_2(a^\star,0.0150391982)\subset K.
+\]
+In particular, the full interval-inflated Region-I star, whose displacement
+from the true $a^\star$ is at most
+$0.012096$, lies in $\operatorname{int}K$.
+For every point $a$ in that star there is a unique finite dual $b(a)$, and
+\[
+ H(a)=\Phi(b(a))-b(a)\cdot a,\qquad
+ \nabla H(a)=-b(a),\qquad
+ \nabla^2H(a)=-[\nabla^2\Phi(b(a))]^{-1}.
+\]
+\end{lemma}
+\begin{proof}
+Write $M=\tanh X$ and define
+\[
+ \rho_0(x)=\operatorname{sgn}(x)(1-|\tanh x|),\qquad
+ \rho_1(x)=\rho_0(x)
+ \begin{cases}1,&|x|\le3/4,\\-1,&|x|>3/4.
+ \end{cases}
+\]
+If $|c_0|+|c_1|\le1$, then
+$\Lambda_c=M+c_0\rho_0+c_1\rho_1$ satisfies
+$|\Lambda_c|\le |M|+(1-|M|)(|c_0|+|c_1|)\le1$.  Hence
+$a^\star+Ac\in K$, where $A_{ij}=\E[f_i\rho_j]$.  The certified uniform
+enclosure is
+\[
+A\in\begin{pmatrix}
+[0.15726546516,0.15726546571]&
+[-0.01079401984,-0.01079401929]\\
+[0.12551630837,0.12551630878]&
+[0.01084146741,0.01084146783]
+\end{pmatrix}.
+\]
+For its columns $p,q$, interval arithmetic gives
+\[
+ \begin{aligned}
+ \det A&\ge0.003059813871082545,&
+ \|p-q\|_2&\le0.2034559164094782,\\
+ &&\|p+q\|_2&\le0.2001182846546655.
+ \end{aligned}
+\]
+The image under $A$ of the $\ell^1$ unit diamond therefore contains a
+Euclidean ball of radius
+\[
+ \frac{\det A}{\max\{\|p-q\|_2,\|p+q\|_2\}}
+ >0.01503919829455.
+\]
+The widest long-radius angular leaf has width $0.016$.  Including its
+$10^{-8}$ angular padding and a $10^{-10}$ Arb-rounding guard, the independently
+enclosed sine and cosine have joint norm at most
+$\sqrt{1+\sin(0.016+2\cdot10^{-8}+10^{-10})}$.  The radial padding is
+$10^{-12}$, and the stored-center interval can be $2\cdot10^{-7}$ away
+from the true center in each coordinate.  Thus every interval box on which
+$H$ is differentiated is within
+\[
+ (0.012+10^{-12})\sqrt{1+\sin(0.016+2\cdot10^{-8}+10^{-10})}
+ +2\sqrt2\,10^{-7}<0.012096
+\]
+of $a^\star$.  This is the required-radius inequality replayed by the
+certificate.  It proves the inclusion and leaves more than $0.002943$
+clearance beyond the padded star.
+
+For any such $a$, choose $\varepsilon>0$ with
+$B_2(a,\varepsilon)\subset K$.  If $u$ is a unit vector and $t\ge0$, then
+\[
+ \Phi(tu)-tu\cdot a
+ \ge t\bigl(h_K(u)-u\cdot a\bigr)\ge t\varepsilon,
+\]
+because $\log(2\cosh y)\ge|y|$ and $h_K(u)=\E|u\cdot f|$.  Thus the dual
+objective is coercive.  Its Hessian
+$\E[ff^\top\operatorname{sech}^2(b\cdot f)]$ is positive definite: a
+nonzero linear combination of $X$ and $\tanh X$ cannot vanish almost surely.
+The minimizer is consequently finite and unique.  Pointwise entropy duality
+gives the equality for $H$, and the inverse-function theorem gives the two
+displayed derivative identities.
 \end{proof}
 
 Region~II certifies, cell by cell, the inequality
@@ -351,7 +569,8 @@ certified upper bound on $h(u,v)=\E|uX+vM|$ over a fan of directions.
 \section{The compact sweep and the degenerate point}\label{sec:huang-sweep}
 
 Write $a^\star=(\psi_0(1-q_0),q_0)$ for the image of $(\lambda_1,\lambda_2)=(1,0)$;
-it is the unique global maximizer, with $H(a^\star)+G(a^\star)=0$. We verify
+the fixed-point identities give $H(a^\star)+G(a^\star)=0$, and the following
+verification proves global maximality. We verify
 \eqref{eq:moment-reduction} in two pieces.
 
 \emph{Region II (the bulk).} For every cell $C$ of a bounded, adaptively
@@ -368,9 +587,9 @@ contribute nothing and are dropped; cells straddling $\partial K$ are handled
 by pulling the dual inward, using that \eqref{eq:dual-bound} holds for any
 fixed $b$. The sweep runs in two stages---all of $K$ minus a coarse box
 around $a^\star$, then that box minus the star, bisecting to side $10^{-3}$
-along the star boundary---and a cell is skipped only if a conservative test
-places it entirely inside the star (maximal corner distance below the
-minimal star radius over the cell's angular range). Both stages terminate
+along the star boundary---and a cell is skipped only if a certified witness
+places the full rectangle inside the core disk or inside one common signed
+weak-axis cone by affine inequalities at all four corners. Both stages terminate
 with every leaf cell strictly negative.
 
 \emph{Region I (the maximizer).} Near the maximizer the value is genuinely
@@ -380,87 +599,188 @@ structural reason: $\nabla^2\Phi(1,0)$ has condition number $\approx 82$
 (the pair $(X,\tanh X)$ is strongly correlated), so the dual image of an
 $a$-box is stretched by a factor $\approx 220$ along one direction and every
 box enclosure of $\nabla^2 H=-[\nabla^2\Phi]^{-1}$ loses the cancellation it
-needs. We work instead along rays. For a unit direction $v$ and a fixed
-slope $\dot\sigma$ set
+needs. We work instead along rays.  The certificate fixes the single exact
+rational vector
+\[
+ C=(-2.448324,\,0.790403)
+\]
+globally, and for every unit direction $v$ uses
+$\dot\sigma_v=C\cdot v$ on every radial band of that ray.  Thus all bands
+for a given $v$ concern the same function
 \[
   \varphi_v(t) = H(a^\star+tv) + \tfrac12 s(t)^2\psi_0
-     + \alpha_\star T\bigl(a^\star+tv, s(t)\bigr),
-  \qquad s(t)=s_0+t\dot\sigma,\quad s_0=\sqrt{1-q_0} .
+     + \alpha_\star \mathcal T\bigl(a^\star+tv, s(t)\bigr),
+  \qquad s(t)=s_0+t\dot\sigma_v,\quad s_0=\sqrt{1-q_0} .
 \]
-Since $G$ is a minimum over the tilt, $\varphi_v\ge \mathcal S_\star$ along
-the ray, while at the fixed point (Huang's unconditional identities: the
-Gardner stationarity and the tilt equation) $\varphi_v(0)=0$ and
-$\varphi_v'(0)=0$. Hence certifying $\varphi_v''\le 0$ on $[0,T(v)]$ proves
-$\mathcal S_\star\le0$ on the segment, and a fan of direction cells covering
-the circle proves it on the star region
-$\{a^\star+tv:\, 0\le t\le T(v)\}$, which contains every cell the stage-2
-sweep skips. The second derivative splits
-into a constraint part---certified fixed-grid integrals over the (thin) ray
-piece, in which no dual variable appears---and the entropy part
-$-v^\top[\nabla^2\Phi(\lambda(x))]^{-1}v$, which we bound WITHOUT tracking
-the ill-conditioned dual map: since
-$\nabla^2\Phi(\lambda)=\E[ff^\top\mathrm{sech}^2(\lambda\!\cdot\!f)]$ with
-$f=(X,\tanh X)$, any localization $\lambda(x)\in\Lambda$ gives
+The implications used by the interval program are isolated in the next
+lemma.  This makes explicit both the matrix-order direction and the
+quantifiers in the dual-localization check.
+
+\begin{lemma}[Ray and localization certificate]\label{lem:ray-localization}
+Let $P\Subset\operatorname{int}K$ be one certified moment polygon, let
+$L\subset\R^2$ be a closed bounded rectangle, and let
+$\widehat b_1,\ldots,\widehat b_m$
+lie in $\operatorname{int}L$.  For $a\in P$ set
+$F_a(b)=\Phi(b)-b\cdot a$ and
 \[
-  \nabla^2\Phi(\lambda(x)) \preceq
-  B_\Lambda := \E\bigl[\, f f^\top\, \max_{\lambda\in\Lambda}
-     \mathrm{sech}^2(\lambda\cdot f)\bigr],
-  \qquad\text{so}\qquad
-  v^\top \nabla^2 H\, v \le -\, v^\top B_\Lambda^{-1} v ,
+ S_a=\{b:F_a(b)\le\min_kF_a(\widehat b_k)\}.
 \]
-and $B_\Lambda$ is a single explicit one-dimensional integral (the inner
-maximum is a per-$z$ corner selection). With $\Lambda=\R^2$ this is the
-global bound $B_0=\E ff^\top$, which settles every direction outside a
-narrow window ($\approx\pm0.095$ rad) around the weak eigenvector of
-$\nabla^2\mathcal S_\star(a^\star)$. Inside the window the localization
-$\Lambda$ is supplied per radius band by a sublevel-set argument that never
-inverts anything: $\lambda(x)$ minimizes $\Phi(\lambda)-\lambda\cdot x$, so
-it lies in the convex set
-$\{\lambda:\Phi(\lambda)-\lambda\cdot x\le \min_k[\Phi(\hat\lambda_k) -
-\hat\lambda_k\cdot x]\}$ for any finite anchor fan $\hat\lambda_k$, and a
-certified one-dimensional sweep of $\Phi$ over the boundary of a candidate
-box (in exact mean-value form, with the per-segment derivative
-$\nabla\Phi-x$ enclosed---it is genuinely small along the flat valley)
-verifies that this set stays inside the box for every $x$ in the band; the
-test function is convex in $x$, so corner points of the band hull suffice.
-The boxes shrink quadratically-in-radius toward $(1,0)$, so
-$B_\Lambda\to\nabla^2\Phi(1,0)$ exactly where sharpness is needed. All
-certificates run over the parameter balls of the Ding--Sun rectangle, hence
-cover the true fixed point.
+Suppose each certified subsegment $E\subset\partial L$ and each tangent
+polygon $P_j$ covering $P$ has fixed weights
+$w_{E,j,k}\ge0$, $\sum_kw_{E,j,k}=1$, for
+which
+\begin{equation}\label{eq:anchor-boundary}
+ \sum_k w_{E,j,k}\{\Phi(b)-\Phi(\widehat b_k)
+              -(b-\widehat b_k)\cdot a\}>0
+ \quad (b\in E,\ a\in P_j).
+\end{equation}
+Then the entropy dual $b(a)$ lies in $\operatorname{int}L$ for every
+$a\in P$.  Moreover, with $f=(X,\tanh X)$ define
+\[
+ B_L=\E\left[ff^\top\max_{b\in L}\operatorname{sech}^2(b\cdot f)\right],
+\]
+and let $\widehat B_L\succeq B_L$ be any certified positive-definite
+majorant. Then, for every $v\in\R^2$,
+\begin{equation}\label{eq:entropy-ray-bound}
+ v^\top\nabla^2H(a)v\le-v^\top \widehat B_L^{-1}v.
+\end{equation}
+Consequently, fix a unit vector $v$, a radius $R(v)>0$, and the preceding
+global choice $\dot\sigma_v=C\cdot v$.  Suppose
+$0=t_0<t_1<\cdots<t_r=R(v)$ and that for every $i$ there are a certified
+polygon $P_i\Subset\operatorname{int}K$ and a closed bounded rectangle
+$L_i$ satisfying the preceding localization hypotheses, with
+$\{a^\star+tv:t\in[t_{i-1},t_i]\}\subset P_i$.  Assume also throughout the
+prefix that $a_2(t)^2<q_0$ and $s(t)\ge0$, and that on every segment the
+certificate bounds the second derivative of the nonentropy part of
+$\varphi_v$ by $v^\top \widehat B_{L_i}^{-1}v$.  Then $H+G\le0$ on the full ray prefix
+$0\le t\le R(v)$.
+\end{lemma}
+\begin{proof}
+By Lemma~\ref{lem:star-interior}, $F_a$ has the unique minimizer $b(a)$, and
+$b(a)\in S_a$.  At least one anchor attaining the displayed minimum belongs
+to $S_a\cap\operatorname{int}L$.  Condition~\eqref{eq:anchor-boundary}
+implies
+\[
+ \max_k\{F_a(b)-F_a(\widehat b_k)\}
+ \ge\sum_kw_{E,j,k}\{F_a(b)-F_a(\widehat b_k)\}>0
+\]
+on $\partial L$, so $S_a$ misses the boundary.  Convexity of $S_a$ and a
+line-segment argument from its interior anchor show that $S_a\subset
+\operatorname{int}L$.
+
+The actual boundary sweep proves \eqref{eq:anchor-boundary} in exact
+mean-value form.  On a segment of half-length $h$ and midpoint $b_0$, its
+lower bound is the midpoint value minus
+$h\sup_E|\partial_u\Phi(b)-a_u|$.  For fixed weights this lower bound is a
+concave function of $a$ (affine minus a positive multiple of an absolute
+value), so strict positivity at every vertex of the tangent polygon implies
+strict positivity throughout it.  The same weights are retained over the
+whole boundary subsegment and polygon; they are never selected separately at
+different vertices.
+
+For $b(a)\in L$,
+\[
+ \nabla^2\Phi(b(a))\preceq B_L\preceq\widehat B_L.
+\]
+These matrices are positive definite, and inversion reverses Loewner order:
+\[
+ \widehat B_L^{-1}\preceq B_L^{-1}
+ \preceq[\nabla^2\Phi(b(a))]^{-1}.
+\]
+Lemma~\ref{lem:star-interior} now gives \eqref{eq:entropy-ray-bound}.  On
+each $[t_{i-1},t_i]$ the asserted nonentropy bound therefore gives
+$\varphi_v''\le0$.  The radial pieces form a gapless partition of
+$[0,R(v)]$, and the same fixed slope $\dot\sigma_v=C\cdot v$ is used on
+every piece, so these are restrictions of one continuously differentiable
+function rather than unrelated annular majorants.  Hence $\varphi_v'$ is
+nonincreasing on the entire prefix and $\varphi_v$ is concave there.
+Finally, $G$ is the infimum over the tilt, so $H+G\le\varphi_v$, while
+Huang's exact fixed-point identities give
+$\varphi_v(0)=\varphi_v'(0)=0$.  It follows that
+$\varphi_v(t)\le0$, and therefore $H+G\le0$, for every
+$0\le t\le R(v)$.
+\end{proof}
+
+The matrix $B_L$ is a one-dimensional integral whose inner maximum is a
+per-$z$ corner-or-zero selection. In the positive-root branch the implementation
+replaces the true zero-straddling strip by the certified outer strip
+$|z|\le z_q$ and uses weight one there, producing the Loewner majorant
+$\widehat B_L\succeq B_L$;
+in the zero-root branches $\widehat B_L=B_L$. The global entropy bound
+$B_{\R^2}=\E[ff^\top]$ settles all but a narrow angular window around the weak
+eigenvector; inside it the certified bounded boxes become sufficiently tight
+around $(1,0)$ for $\widehat B_L$ to retain the sharpness needed by the certificate.
+
+It remains to match the polar certificates to the stage-2 skips.  Let
+$\omega(\theta)$ be angular distance to either weak-eigenvector axis.  The
+stage-2 test uses the deliberately shrunken effective radii
+\[
+ T_{\rm eff}(\theta)=
+ \begin{cases}
+ 0.012,&\omega(\theta)\le0.1479995,\\
+ 0.008,&\omega(\theta)\le0.4199995,\\
+ 0.005,&\text{otherwise}.
+ \end{cases}
+\]
+The stage-2 inclusion witness encloses the maximum corner radius in Arb,
+including the certified center uncertainty. It either accepts the rectangle
+inside the everywhere-valid $0.005$ disk, or selects one common signed weak
+axis and verifies positive projection and both affine half-cone inequalities
+at all four corners. The cone half-angles are shrunk by $0.012$ and $0.030$
+and, like every radius, by a further $5\cdot10^{-7}$. These angular
+shrinkages exceed the adjacent Region-I chunk half-widths $0.008$ and
+$0.025$. Convexity then puts the entire
+rectangle inside the corresponding shrunken disk or cone. Thus every skipped
+rectangle lies in the union of accepted Region-I polar cells, so the two
+regions have neither a geometric gap nor an unchecked boundary sliver. All of
+these checks use the full Ding--Sun parameter balls.
 
 \section{Assembly}\label{sec:assembly}
 
 The pieces combine as follows.
 
-\emph{Upper bound.} Huang's Theorem~\ref{thm:main} reduces the capacity upper
-bound at $\kappa=0$ to four numerical conditions. His other three
-numerical conditions (the parameter rectangle, the AMP constants, and the
-local concavity constants) were verified by Huang in \texttt{python-flint} and,
-for the first, rest on Ding--Sun Proposition~1.3, which we re-verify in
-\S\ref{sec:gardner} (Block~1). His Condition~1.3 is the statement
+\emph{Upper bound.} Huang's upper-bound theorem~\cite{huang2024capacity}
+reduces the capacity upper bound at $\kappa=0$ to four numerical conditions.
+His interval code verified the AMP and local-concavity conditions. The
+parameter rectangle was inherited from Ding--Sun Proposition~1.3 and is
+re-verified here in \S\ref{sec:gardner} (Block~1). His remaining
+Condition~1.3 is the statement
 $\mathcal S_\star\le 0$ on $\R^2$. In moment coordinates
-(\S\ref{sec:huang-moments}) this is $\sup_{K}(H+G)\le 0$; the two sweeps of
+(\S\ref{sec:huang-moments}) the one-sided reduction shows that
+$\sup_{K}(H+G)\le 0$ is sufficient; the two sweeps of
 Region~II (\S\ref{sec:huang-sweep}) certify $H+G<0$ on $K$ outside the
 certified star region around $a^\star$ (the first over $K$ minus a coarse
 box, the second over that box minus the star, bisecting to side $10^{-3}$
 along the star boundary), and Region~I's ray certificates give $H+G\le0$ on
-the star itself. Hence $\sup_K(H+G)=0$, i.e.\
-Condition~1.3 holds, and Huang's upper bound
+the star itself. Hence $\sup_K(H+G)=0$, and the one-sided reduction gives
+Condition~1.3. Huang's upper bound
 $\lim_N \PP(M_N/N\ge\alpha)=0$ for $\alpha>\alpha_\star$ becomes
 unconditional.
 
-\emph{Lower bound.} Ding--Sun's main theorem gives, under their
-Condition~1.2, that $\liminf_N\PP(M_N/N\ge\alpha)>0$ for $\alpha<\alpha_\star$;
-the sharp-threshold results of Xu and Nakajima--Sun upgrade this to high
-probability. Condition~1.2 is the one-dimensional statement
-$\mathscr S_\star(\lambda)<0$ for $\lambda\notin\{0,1\}$, and the covering of
+\emph{Lower bound.} Under their Condition~1.2, Ding--Sun's main theorem gives
+\[
+ \liminf_{N\to\infty}\PP(M_N/N\ge\alpha)>0
+ \qquad (\alpha<\alpha_\star).
+\]
+Nakajima--Sun's theorem for general subgaussian disorder upgrades this to high
+probability; it extends Xu's Bernoulli-model result. Writing
+$\mathrm{PG}=\mathcal H+\mathcal P$, the global-sign clause of
+Condition~1.2 is $\mathscr S_\star(\lambda)<0$ for
+$\lambda\notin\{0,1\}$, and the covering of
 $[\lambda_{\min},1]$ follows their own decomposition: the value grids on
-$[0.2,0.98]$ and $[\lambda_{\min},-0.125]$ (part (a), our Block~3a), the
+$[0.2,0.982]$ and $[\lambda_{\min},-0.125]$ (part (a), our Block~3a), the
 derivative signs $\mathrm{PG}'<0$ on $[0.05,0.2]$ and $\mathrm{PG}'>0$ on
 $[-0.125,-0.03]$ (part (b)), the second derivative $\mathrm{PG}''<0$ on
 $[-0.03,0.05]$ around the degenerate zero $\lambda=0$ where
 $\mathrm{PG}(0)=\mathrm{PG}'(0)=0$ (part (c)), and the near-one analysis on
-$[0.98,1)$ (Block~2). Parts (b) and (c) use the exact derivative identities
+ $[0.982,1)$ (Block~2); the value grid reaches beyond $0.982$, so the two
+ pieces overlap. The central certificate and $\mathcal A''(0)\le0$
+ \cite[discussion following eq.~(2.35)]{ding2018capacity} give the
+ separate journal-version clause $\mathscr S_\star''(0)<0$; Ding--Sun's exact
+ calculation \cite[proof of Theorem~1.4]{ding2018capacity} gives
+ $\mathscr S_\star'(\lambda)\to+\infty$ as
+ $\lambda\uparrow1$, which is stronger than their endpoint clause. Parts (b)
+ and (c) use the exact derivative identities
 $\mathcal H'=-(1-q_\star)\log A/2$, $\mathcal
 H''=-(1-q_\star)/(2A\,\ell'(A))$ and certified two-dimensional integrals for
 $I'$ and $I''$ (with closed-form Gaussian-moment bounds for the mass outside
@@ -475,27 +795,30 @@ grid together with a closed-form bound on $|I'''|$ (a degree-four
 Gaussian-moment estimate) that controls the values between grid points.
 
 \emph{Disorder.} Krauth and M\'ezard's model has $\pm1$ (Bernoulli) disorder;
-we work with Gaussian disorder throughout. The two agree because the capacity
-has a universal sharp threshold sequence over subgaussian disorder
-(Nakajima--Sun), which includes both.
+we work with Gaussian disorder throughout. Nakajima--Sun show that the
+sharp-threshold locations differ by $o(1)$ across the standardized subgaussian
+class; hence the Gaussian convergence transfers to Bernoulli disorder and the
+other distributions stated in Theorem~\ref{thm:main}.
 
-\emph{What is machine-checked.} Every statement labelled a Claim is a finite
-list of ball inequalities between explicitly defined real numbers, established
-by Arb; the analytic reductions around them (the moment-body reduction, convex
+\emph{What is machine-checked.} Every numerical certificate invoked above is
+a finite list of ball inequalities between explicitly defined real numbers,
+established by Arb; the analytic reductions around them (the moment-body reduction, convex
 duality, the ray majorants and their pinned identities, the localization and
-$B_\Lambda$ arguments, the reductions to certified quadrature) are proved on
+$B_L\preceq\widehat B_L$ matrix arguments, and the reductions to certified quadrature) are proved on
 paper. The nonrigorous companion (\texttt{huang\_np.py}) only selects
 per-cell duals, tilts, anchors, and candidate boxes, which enter the
 certificates as fixed rationals; no certified inequality depends on it.
+For Region~I, the final verifier does not merely inspect the signs of stored
+balls: from the frozen source it recomputes every fixed-weight localization
+witness, every entry of $\widehat B_L$ and its determinant, every inverse quadratic
+form, and every radial curvature enclosure, then requires byte-exact packet
+agreement.  The top-level verification also binds the complete angular and
+radial trees, the four-artifact Region-I/II delegation chain, and the pinned
+Python executable and python-flint arithmetic core.
 
-\emph{Inventory.} The final runs comprise: the parameter rectangle,
-13~checks; Huang Region~II, $873$ leaf cells (stage~1, the moment body minus
-a coarse box) and $1337$ leaf cells (stage~2, the box minus the star), all
-strictly negative; Huang Region~I, $836$ band certificates covering the star
-with zero failures; Ding--Sun part~(a), $118$ grid cells; the corrected
-near-one block, $10$ checks; and the middle-interval derivative and
-second-derivative certificates. Logs and JSON summaries for every run are
-included with the source.
+% BEGIN VERIFIED CERTIFICATE INVENTORY
+\emph{Inventory.} The final source-bound runs comprise: the parameter rectangle, 13 checks; Huang Region~II stage~1, $1200$ top cells and $1822$ verified leaves; stage~2, $240$ top cells and $1499$ verified leaves; Huang Region~I, $1404$ band jobs, $4542$ certified angular leaves, and $16543$ radial pieces; Ding--Sun Block~3a, $247$ top cells and $263$ recursive leaves; the corrected near-one block; and Block~3b/c at $K_{\mathrm{run}}=21/2$, with $24$ positive-branch top cells ($124$ leaves), $331$ negative-branch top cells ($578$ leaves), and $16$ central top cells ($185$ leaves), supported by a certified $59$-point $I''$ grid. The canonical JSON certificates and their complete raw record trees are included with the source.
+% END VERIFIED CERTIFICATE INVENTORY
 
 \begin{remark}[Soundness audit]
 Two implementation errors were caught during this work by independent
@@ -518,22 +841,30 @@ formulas. All certificates reported here postdate both corrections.
 
 \section*{Funding and declarations}
 The author acknowledges support from the European Research Council under the
-European Union's Horizon 2022 research and innovation programme, the Simons
+European Union's Horizon Europe programme (grant 101041711), the Simons
 Foundation, Heights Labs, and Israel Science Foundation grants 2258/19 and
 4101/25.
 
-Most of the work reported here was done by Fable~5 (Anthropic), an AI
-system: the mathematical theory (the moment-coordinate reduction, the ray
-majorants and their pinned identities, the $B_\Lambda$ bound and the
-sublevel-set localization, the corrected near-one chain), essentially all
-of the code, the soundness audits, and the drafting of this manuscript.
-The system operated in an autonomous goal mode: the author set the
-objective of resolving the outstanding conditions, and it worked toward
-that objective over extended unattended sessions, choosing the approach,
-implementing and running the certificates, detecting and repairing its own
-errors through independent cross-checks, and iterating until the
-verifications closed. The author supervised the runs, reviewed the
-mathematics, and accepts responsibility for the final manuscript. This is
+Most of the work reported here was done by two AI systems: Fable~5
+(Anthropic) and Codex (OpenAI). Fable~5 developed the main mathematical
+architecture---the moment-coordinate reduction, the ray majorants and their
+pinned identities, the $B_L\preceq\widehat B_L$ bound, the sublevel-set
+localization, and the corrected near-one chain---and wrote the bulk of the
+proof code and the initial manuscript. Codex performed a separate internal
+re-audit of the final source and proof boundary, applied and validated the confirmed
+full-circle normalization fix in the Region~I verifier, validated and landed
+the repaired Block~3a and Huang closures, completed the fresh Block~3b/c and
+final closure, hardened the source-bound receipt and cross-platform release
+gates, assembled the final reproducibility package, and audited the final
+manuscript and public-release readiness.
+
+Both systems operated in autonomous goal modes: the author set the objective
+of resolving the outstanding conditions, and the systems worked toward that
+objective over extended unattended sessions, choosing approaches,
+implementing and running certificates, detecting and repairing errors through
+separate cross-checks, and iterating until the verifications closed. The
+author supervised the runs, reviewed the mathematics, and accepts
+responsibility for the final manuscript. This is
 part of a broader research project of the author on the extent to which
 current AI systems can resolve open problems in mathematics.
 
@@ -547,7 +878,9 @@ J. Physique \textbf{50} (1989), 3057--3066.
 \bibitem{ding2018capacity}
 J.~Ding and N.~Sun,
 Capacity lower bound for the Ising perceptron,
-STOC 2019; arXiv:1809.07742.
+Probab. Theory Related Fields \textbf{193} (2025), 627--715,
+\url{https://doi.org/10.1007/s00440-025-01364-x}; conference version STOC
+2019; extended arXiv version arXiv:1809.07742.
 
 \bibitem{xu2021sharp}
 C.~Xu,
@@ -571,7 +904,7 @@ arXiv:2401.15092.
 
 \bibitem{repo}
 Y.~Shmalo,
-Verification programs and certified run logs for this paper,
+Verification programs, canonical certificates, and raw records for this paper,
 \url{https://github.com/yspennstate/ising-perceptron-capacity}, 2026.
 
 \end{thebibliography}

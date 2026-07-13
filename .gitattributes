@@ -1,0 +1,9 @@
+*.py -text
+*.json -text
+*.jsonl -text
+*.log -text
+*.txt -text
+*.pdf binary
+*.tex text eol=lf
+*.md text eol=lf
+*.sh text eol=lf

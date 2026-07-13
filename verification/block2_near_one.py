@@ -85,6 +85,8 @@ def part_2c():
     c_ub = ((1 - lam_lb) / (1 + lam_lb)).sqrt()
     root = (1 - L_lb).sqrt()
     tol = arb(2) ** (-60)
+    check("(2c) negative-z envelope gamma_ub < psi_ub",
+          PSI_UB - GAMMA_UB, '>0')
 
     def inner_pos(z, an):
         PsiglbZ = c_Psi(acb(GAMMA_LB) * z)
