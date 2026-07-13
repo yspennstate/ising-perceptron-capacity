@@ -1,0 +1,8 @@
+PASS star_interior pristine: pristine certificate accepted
+PASS star_interior matrix entry shifted 1e-2: rejected (ValueError: invalid star-interior certificate envelope)
+PASS region1 pristine (structural): pristine certificate accepted
+PASS region1 b11 radius swallows midpoint: rejected (ValueError: invalid Region-I certificate schema/identity)
+PASS region1 localization leaf dropped (edge 0): rejected (ValueError: invalid Region-I certificate schema/identity)
+PASS sweep1 pristine: pristine certificate accepted
+PASS sweep1 h(1,0) identity packet sign flipped: rejected (ValueError: invalid sweep certificate schema/identity)
+BATTERY PASS

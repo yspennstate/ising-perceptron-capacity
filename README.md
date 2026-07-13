@@ -36,6 +36,11 @@ boundary; assembled the reproducibility artifacts; and audited the final
 manuscript and public-release readiness. The author supervised the runs,
 reviewed the mathematics, and accepts responsibility for the result.
 
+This was not a generic application of the AI systems. The work is part of a
+broader research project of the author developing methods for how AI systems
+can be used to resolve open problems in mathematics; these methods will be
+released in due course.
+
 ## What is certified
 
 - The Ding--Sun parameter rectangle and corrected near-one estimate.
@@ -54,6 +59,36 @@ The helper `verification/huang_np.py` only proposes rational duals, tilts,
 anchors, and boxes. Every accepted inequality is recomputed in ball
 arithmetic, and every certificate is bound to producer-source and
 arithmetic-core hashes.
+
+## Post-release verification
+
+After the release, the complete verification was run again end to end and
+extended with independent layers; the artifacts and full report are in
+[reverification_20260713/](reverification_20260713/). What ran and what it
+verified:
+
+- A full replay on the attested runtime from a fresh clone at `v1.0`: 90/90
+  tests, the paper-count check, and `verify_all.py` ending in
+  `ALL CERTIFICATES PASS` with all 1,404 Region-I band jobs replayed, zero
+  failures.
+- A full run on a second, unattested runtime (Windows, Python 3.14, a
+  different FLINT build): every mathematical replay passes there as well,
+  and the three rows that are bound to the attested runtime by their
+  regenerate-and-compare design are identified precisely.
+- A Lean 4 kernel check of the exact-arithmetic certificate layer: 376
+  generated files restate, over the integers, every cover, tiling, ordering,
+  containment, definiteness, and stored-sign fact in the certificate chain
+  (including all 16,543 radial curvature signs), and all of them are decided
+  by the Lean kernel; a thirteen-case corruption battery confirms the checks
+  can fail.
+- A 31-identity SymPy audit of the closed-form transcriptions against the
+  Ding--Sun source displays and the Hessian derivations.
+- Portable rational-arithmetic checkers for the star-interior chain and the
+  Region-II delegation geometry, closing the runtime-bound rows on any
+  machine; 40- and 50-digit mpmath re-evaluations of the star-interior
+  integrals and the thinnest sweep cells; an exact finite-size
+  satisfiability scan consistent with the certified threshold; and a
+  fresh-clone reproduction test of the archive itself.
 
 ## Exact runtime
 
@@ -90,8 +125,9 @@ The final Stage-A run and Stage-B package bind private source commit
   `fecadcd2f09a0ed0cef6ba8d2dcb4f3996bc51f591fbbb73b8906dba6ad33ad5`
 - Stage-B handoff SHA-256:
   `8c1d155c70267d2572c67a1003ab89c99fde255451c108ef13ad1ba1294bb58f`
-- Committed 13-page PDF SHA-256:
-  `1c4d17912c48e3b3c6300ea08378d9d20fd9a2053fa7e74e6bbe9307a3818fd1`
+- Committed 13-page PDF SHA-256 (rebuilt with the post-release verification
+  remark and the research-program statement):
+  `b0a464a18bfe51b26b22cfdfd9ba46b757824d75c32ef9badce19435d40f97d2`
 
 The receipt binds the full private `perceptron/` subtree: 561 files and
 90,350,421 bytes, including working source papers and internal release notes

@@ -1,0 +1,32 @@
+PASS Delta radicand two forms (lbd e:D.A.expand vs code)
+PASS B_H(A) two closed forms (lbd e:B.A)
+PASS D_H(A) dual-solution form equals (1-m^2)(Delta-1)/(Delta+1)
+PASS dsfun.D_of code form equals (1-m^2)(Delta-1)/(Delta+1)
+PASS (1-m^2)(Delta-1)/(Delta+1) equals (Delta-1)^2/(A^2-1)
+PASS (e:D.A.expand) equals (e:D.H.intro) raw form
+PASS (D_H)'(A) matches lbd (e:deriv.D.A)
+PASS (e:deriv.D.A) internal chain
+PASS pair-entropy table probabilities sum to 1 (lbd e:P.H.D)
+PASS pair-entropy + marginal
+PASS pair-entropy - marginal
+PASS pair table correlation identity E[JK]=m^2+D
+PASS d/dV log Psi = -E(V) (huang_hessian header)
+PASS d/dV(-E) = ... consistency
+PASS d2/dV2 log Psi = -E(E-V) (quadT_box Ep)
+PASS dV/da1 = -N/(psi D)
+PASS dV/da2 coefficient split on (Ht, N)
+PASS d2V/da1^2 = 0
+PASS d2V/da1 da2 = -a2 N/(psi q D^3)
+PASS d(1/D)/da2
+PASS d(1/D^3)/da2
+PASS d2V/da2^2 coefficient split (dV2_Ht, dV2_N)
+PASS dD/da2 = -a2/(qD)
+PASS c-parameterization: root^2 = 1 - lambda^2
+PASS c-parameterization: c^2 = (1-lambda)/(1+lambda)
+PASS I_s integrand argument: code form equals lbd (e:II.repeat) under nu = x + gamma z
+PASS conditional nu-density normalizer equals Psi(gamma z)
+PASS lbd (e:PP.pair.repeat) two printed forms agree iff P_star = psi(1-q)/2 + I(0)
+PASS moment-reduction Lagrange stationarity: d/dL ent2((1+L)/2) = -atanh L
+PASS V_s display (sec:huang-moments) equals quadT_box c0 Ht + c1 N
+PASS d/dlam psi(1-q)/(1+lam) = -psi(1-q)/(1+lam)^2 (P' non-integral term)
+ALL SYMBOLIC IDENTITIES PASS

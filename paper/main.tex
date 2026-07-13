@@ -137,7 +137,11 @@ entries, by the universality theorem of \cite{nakajima2023sharp}.
 This manuscript presents a new computer-assisted proof claim. Its
 source-bound package has passed the included internal verifiers and a separate
 second-system audit, but it has not yet been independently reproduced or peer
-reviewed.
+reviewed. A post-release verification round---a complete replay on the
+attested runtime, replays on a second independent runtime, a Lean-kernel
+check of the exact-arithmetic certificate layer, and symbolic and
+high-precision numerical audits of the transcribed formulas---is archived
+with the repository \cite{repo}.
 \end{remark}
 
 The verification is computer-assisted in the sense that finitely many
@@ -864,9 +868,10 @@ objective over extended unattended sessions, choosing approaches,
 implementing and running certificates, detecting and repairing errors through
 separate cross-checks, and iterating until the verifications closed. The
 author supervised the runs, reviewed the mathematics, and accepts
-responsibility for the final manuscript. This is
-part of a broader research project of the author on the extent to which
-current AI systems can resolve open problems in mathematics.
+responsibility for the final manuscript. This was not a generic application
+of the AI systems: it is part of a broader research project of the author
+developing methods for how AI systems can be used to resolve open problems
+in mathematics, and these methods will be released in due course.
 
 \begin{thebibliography}{9}
 

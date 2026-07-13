@@ -1,0 +1,151 @@
+=== LOCAL RERUN Mon Jul 13 14:08:25 JDT 2026 Python Python 3.14.3 ===
+--- 1. unittest discover ---
+..........................................................................................
+----------------------------------------------------------------------
+Ran 90 tests in 21.278s
+
+OK
+UNITTEST_EXIT=0
+--- 2. update_paper_counts --check ---
+Traceback (most recent call last):
+  File "C:\Users\owner\perceptron_reverify_20260713\public\verification\update_paper_counts.py", line 151, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\owner\perceptron_reverify_20260713\public\verification\update_paper_counts.py", line 129, in main
+    counts = verified_counts()
+  File "C:\Users\owner\perceptron_reverify_20260713\public\verification\update_paper_counts.py", line 25, in verified_counts
+    _, (_, components) = huang_sweep_verify.verify_bundle(
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        RESULTS / "huang_bundle.json")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\owner\perceptron_reverify_20260713\public\verification\huang_sweep_verify.py", line 678, in verify_bundle
+    star_interior = huang_star_interior.verify_certificate(
+        resolved['star_interior'])
+  File "C:\Users\owner\perceptron_reverify_20260713\public\verification\huang_star_interior.py", line 226, in verify_certificate
+    raise ValueError("star-interior certificate does not replay exactly")
+ValueError: star-interior certificate does not replay exactly
+COUNTS_EXIT=1
+--- 3. verify_all ---
+
+======================================================================
+Block 1: Ding-Sun parameter rectangle (Proposition 1.3)
+======================================================================
+
+======================================================================
+Huang Condition 1.3 / Region I: moment-body interior
+======================================================================
+huang_star_interior.json: FAIL (exception:ValueError:star-interior certificate does not replay exactly)
+
+======================================================================
+Huang Condition 1.3 / Region I: star region certificates
+======================================================================
+  Region-I numerical replay 1/1404 (last job 0)
+  Region-I numerical replay 25/1404 (last job 24)
+  Region-I numerical replay 50/1404 (last job 49)
+  Region-I numerical replay 75/1404 (last job 74)
+  Region-I numerical replay 100/1404 (last job 98)
+  Region-I numerical replay 125/1404 (last job 123)
+  Region-I numerical replay 150/1404 (last job 150)
+  Region-I numerical replay 175/1404 (last job 174)
+  Region-I numerical replay 200/1404 (last job 200)
+  Region-I numerical replay 225/1404 (last job 224)
+  Region-I numerical replay 250/1404 (last job 249)
+  Region-I numerical replay 275/1404 (last job 274)
+  Region-I numerical replay 300/1404 (last job 297)
+  Region-I numerical replay 325/1404 (last job 324)
+  Region-I numerical replay 350/1404 (last job 349)
+  Region-I numerical replay 375/1404 (last job 375)
+  Region-I numerical replay 400/1404 (last job 399)
+  Region-I numerical replay 425/1404 (last job 425)
+  Region-I numerical replay 450/1404 (last job 449)
+  Region-I numerical replay 475/1404 (last job 474)
+  Region-I numerical replay 500/1404 (last job 499)
+  Region-I numerical replay 525/1404 (last job 524)
+  Region-I numerical replay 550/1404 (last job 549)
+  Region-I numerical replay 575/1404 (last job 574)
+  Region-I numerical replay 600/1404 (last job 599)
+  Region-I numerical replay 625/1404 (last job 624)
+  Region-I numerical replay 650/1404 (last job 649)
+  Region-I numerical replay 675/1404 (last job 674)
+  Region-I numerical replay 700/1404 (last job 700)
+  Region-I numerical replay 725/1404 (last job 724)
+  Region-I numerical replay 750/1404 (last job 749)
+  Region-I numerical replay 775/1404 (last job 774)
+  Region-I numerical replay 800/1404 (last job 799)
+  Region-I numerical replay 825/1404 (last job 824)
+  Region-I numerical replay 850/1404 (last job 850)
+  Region-I numerical replay 875/1404 (last job 874)
+  Region-I numerical replay 900/1404 (last job 899)
+  Region-I numerical replay 925/1404 (last job 924)
+  Region-I numerical replay 950/1404 (last job 949)
+  Region-I numerical replay 975/1404 (last job 974)
+  Region-I numerical replay 1000/1404 (last job 999)
+  Region-I numerical replay 1025/1404 (last job 1024)
+  Region-I numerical replay 1050/1404 (last job 1049)
+  Region-I numerical replay 1075/1404 (last job 1075)
+  Region-I numerical replay 1100/1404 (last job 1099)
+  Region-I numerical replay 1125/1404 (last job 1123)
+  Region-I numerical replay 1150/1404 (last job 1149)
+  Region-I numerical replay 1175/1404 (last job 1174)
+  Region-I numerical replay 1200/1404 (last job 1199)
+  Region-I numerical replay 1225/1404 (last job 1224)
+  Region-I numerical replay 1250/1404 (last job 1249)
+  Region-I numerical replay 1275/1404 (last job 1274)
+  Region-I numerical replay 1300/1404 (last job 1299)
+  Region-I numerical replay 1325/1404 (last job 1324)
+  Region-I numerical replay 1350/1404 (last job 1349)
+  Region-I numerical replay 1375/1404 (last job 1374)
+  Region-I numerical replay 1400/1404 (last job 1399)
+  Region-I numerical replay 1404/1404 (last job 1403)
+huang_region1.json: 1404 band jobs, fails=0, manifest=ok
+  exact star policy and all curvature leaves verified
+
+======================================================================
+Huang Condition 1.3 / Region II: bulk sweeps
+======================================================================
+huang_sweep.json: PASS (ok) leaves=1822
+huang_sweep2.json: PASS (ok) leaves=1499
+Region-II delegation chain: FAIL (complete Region-I exact evidence unavailable)
+
+======================================================================
+Sweep rectangle contains the moment body: K subset R
+======================================================================
+PASS (canonical Sweep1 h(1,0), h(0,1) upper packets are strictly below the exact rectangle limits)
+
+======================================================================
+Degenerate point: S_*(1,0) analytic identity
+======================================================================
+PASS (certificate binds the analytic identity S_*(1,0)=0)
+
+======================================================================
+Ding-Sun Condition 1.2: near-one block (block2)
+======================================================================
+
+======================================================================
+Ding-Sun Condition 1.2: grid logs (block3a) and middle (block3bc)
+======================================================================
+block3a_certificate.json: INCOMPLETE/FAIL (ValueError: Block3a certificate/evidence mismatch)
+PASS  lam_lo(0.26) > 0.2 = [0.00423194 +/- 5.03e-9]  [>0]
+PASS  lam_up(0.06) < 0.05 = [0.006030603 +/- 3.58e-10]  [>0]
+PASS  lam_up(-0.19) < -0.125 = [0.001763128 +/- 4.01e-10]  [>0]
+PASS  lam_lo(-0.03) > -0.03 = [0.008722845 +/- 6.19e-10]  [>0]
+PASS  lam_up(-0.043) < -0.03 = [0.000350729 +/- 7.20e-10]  [>0]
+PASS  lam_lo(0.078) > 0.05 = [0.007528365 +/- 4.96e-10]  [>0]
+block3bc_certificate.json: PASS 968b3e5bc543da1c3109bf0ff63ddcdf6edc90f3fbcf5e5f24b001e04ca741b1
+
+======================================================================
+Summary
+======================================================================
+PASS  DS Block 1 (rectangle)
+FAIL  Huang Region I (star interior)
+PASS  Huang Region I (star)
+FAIL  Huang Region II (sweeps)
+PASS  K inside sweep rectangle
+PASS  S_*(1,0) = 0
+PASS  DS Block 2 (near one)
+FAIL  DS Block 3a (grids)
+PASS  DS Block 3bc (middle)
+
+INCOMPLETE / FAILURES
+VERIFYALL_EXIT=1
+=== DONE Mon Jul 13 14:56:22 JDT 2026 ===

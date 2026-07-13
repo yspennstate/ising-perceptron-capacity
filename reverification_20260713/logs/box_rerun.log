@@ -1,0 +1,196 @@
+START Mon Jul 13 11:10:39 UTC 2026
+--1 unittest--
+..........................................................................................
+----------------------------------------------------------------------
+Ran 90 tests in 9.303s
+
+OK
+UNITTEST_EXIT=0
+--2 counts--
+PASS  lam_lo(0.26) > 0.2 = [0.00423194 +/- 5.03e-9]  [>0]
+PASS  lam_up(0.06) < 0.05 = [0.006030603 +/- 3.58e-10]  [>0]
+PASS  lam_up(-0.19) < -0.125 = [0.001763128 +/- 4.01e-10]  [>0]
+PASS  lam_lo(-0.03) > -0.03 = [0.008722845 +/- 6.19e-10]  [>0]
+PASS  lam_up(-0.043) < -0.03 = [0.000350729 +/- 7.20e-10]  [>0]
+PASS  lam_lo(0.078) > 0.05 = [0.007528365 +/- 4.96e-10]  [>0]
+{
+  "block3a_cells": 247,
+  "block3a_leaves": 263,
+  "block3bc": {
+    "b_neg": {
+      "leaves": 578,
+      "top_cells": 331
+    },
+    "b_pos": {
+      "leaves": 124,
+      "top_cells": 24
+    },
+    "c": {
+      "leaves": 185,
+      "top_cells": 16
+    }
+  },
+  "k_nodes": 59,
+  "k_run": "21/2",
+  "region1_angular_leaves": 4542,
+  "region1_jobs": 1404,
+  "region1_radial_pieces": 16543,
+  "sweep1_jobs": 1200,
+  "sweep1_leaves": 1822,
+  "sweep2_jobs": 240,
+  "sweep2_leaves": 1499
+}
+PASS paper inventory matches verified certificates
+COUNTS_EXIT=0
+--3 verify_all--
+
+======================================================================
+Block 1: Ding-Sun parameter rectangle (Proposition 1.3)
+======================================================================
+PASS  R(q_lb, a_lb) - PSI_LB = [8.783171570e-11 +/- 5.38e-21]  [>0]
+PASS  PSI_LU - R(q_lu, a_lb) = [9.946937872e-11 +/- 5.20e-21]  [>0]
+PASS  R(q_ul, a_ub) - PSI_UL = [9.631110845e-11 +/- 4.94e-21]  [>0]
+PASS  PSI_UB - R(q_ub, a_ub) = [9.098998523e-11 +/- 5.84e-21]  [>0]
+PASS  P'(psi) upper bound vs 0.08 = [0.0140256238913265447260567606 +/- 4.71e-29]  [>0]
+PASS  dR/dq upper bound vs 12 = [0.409874 +/- 8.97e-7]  [>0]
+PASS  contraction constant vs 0.96 = [0.1953486 +/- 6.65e-8]  [>0]
+PASS  P(R(q_lb,a_lb)) - q_lb = [1.594321174e-12 +/- 6.03e-22]  [>0]
+PASS  q_lu - P(R(q_lu,a_lb)) = [9.70438951e-13 +/- 1.93e-22]  [>0]
+PASS  P(R(q_ul,a_ub)) - q_ul = [4.43680789e-13 +/- 4.76e-22]  [>0]
+PASS  q_ub - P(R(q_ub,a_ub)) = [2.121079330e-12 +/- 6.24e-22]  [>0]
+PASS  G_*(a_ub) < 0 (upper bound) = [-2.04730170214e-10 +/- 7.48e-22]  [<0]
+PASS  G_*(a_lb) > 0 (lower bound) = [7.25469060146e-10 +/- 6.65e-22]  [>0]
+
+13/13 checks passed
+
+======================================================================
+Huang Condition 1.3 / Region I: moment-body interior
+======================================================================
+huang_star_interior.json: PASS (ok) e03fa07e2ea959ceb035313d28f222e193fd4d78427b389796746f3c69ae790a
+
+======================================================================
+Huang Condition 1.3 / Region I: star region certificates
+======================================================================
+  Region-I numerical replay 1/1404 (last job 0)
+  Region-I numerical replay 25/1404 (last job 23)
+  Region-I numerical replay 50/1404 (last job 49)
+  Region-I numerical replay 75/1404 (last job 75)
+  Region-I numerical replay 100/1404 (last job 101)
+  Region-I numerical replay 125/1404 (last job 125)
+  Region-I numerical replay 150/1404 (last job 150)
+  Region-I numerical replay 175/1404 (last job 174)
+  Region-I numerical replay 200/1404 (last job 200)
+  Region-I numerical replay 225/1404 (last job 224)
+  Region-I numerical replay 250/1404 (last job 249)
+  Region-I numerical replay 275/1404 (last job 274)
+  Region-I numerical replay 300/1404 (last job 300)
+  Region-I numerical replay 325/1404 (last job 324)
+  Region-I numerical replay 350/1404 (last job 349)
+  Region-I numerical replay 375/1404 (last job 374)
+  Region-I numerical replay 400/1404 (last job 399)
+  Region-I numerical replay 425/1404 (last job 424)
+  Region-I numerical replay 450/1404 (last job 451)
+  Region-I numerical replay 475/1404 (last job 474)
+  Region-I numerical replay 500/1404 (last job 499)
+  Region-I numerical replay 525/1404 (last job 522)
+  Region-I numerical replay 550/1404 (last job 549)
+  Region-I numerical replay 575/1404 (last job 574)
+  Region-I numerical replay 600/1404 (last job 599)
+  Region-I numerical replay 625/1404 (last job 624)
+  Region-I numerical replay 650/1404 (last job 649)
+  Region-I numerical replay 675/1404 (last job 674)
+  Region-I numerical replay 700/1404 (last job 700)
+  Region-I numerical replay 725/1404 (last job 724)
+  Region-I numerical replay 750/1404 (last job 749)
+  Region-I numerical replay 775/1404 (last job 775)
+  Region-I numerical replay 800/1404 (last job 799)
+  Region-I numerical replay 825/1404 (last job 824)
+  Region-I numerical replay 850/1404 (last job 851)
+  Region-I numerical replay 875/1404 (last job 873)
+  Region-I numerical replay 900/1404 (last job 899)
+  Region-I numerical replay 925/1404 (last job 925)
+  Region-I numerical replay 950/1404 (last job 949)
+  Region-I numerical replay 975/1404 (last job 974)
+  Region-I numerical replay 1000/1404 (last job 999)
+  Region-I numerical replay 1025/1404 (last job 1024)
+  Region-I numerical replay 1050/1404 (last job 1049)
+  Region-I numerical replay 1075/1404 (last job 1075)
+  Region-I numerical replay 1100/1404 (last job 1099)
+  Region-I numerical replay 1125/1404 (last job 1126)
+  Region-I numerical replay 1150/1404 (last job 1149)
+  Region-I numerical replay 1175/1404 (last job 1174)
+  Region-I numerical replay 1200/1404 (last job 1199)
+  Region-I numerical replay 1225/1404 (last job 1224)
+  Region-I numerical replay 1250/1404 (last job 1250)
+  Region-I numerical replay 1275/1404 (last job 1274)
+  Region-I numerical replay 1300/1404 (last job 1299)
+  Region-I numerical replay 1325/1404 (last job 1322)
+  Region-I numerical replay 1350/1404 (last job 1349)
+  Region-I numerical replay 1375/1404 (last job 1374)
+  Region-I numerical replay 1400/1404 (last job 1399)
+  Region-I numerical replay 1404/1404 (last job 1403)
+huang_region1.json: 1404 band jobs, fails=0, manifest=ok
+  exact star policy and all curvature leaves verified
+
+======================================================================
+Huang Condition 1.3 / Region II: bulk sweeps
+======================================================================
+huang_sweep.json: PASS (ok) leaves=1822
+huang_sweep2.json: PASS (ok) leaves=1499
+Region-II delegation chain: PASS (ok; canonical bundle bound)
+
+======================================================================
+Sweep rectangle contains the moment body: K subset R
+======================================================================
+PASS (canonical Sweep1 h(1,0), h(0,1) upper packets are strictly below the exact rectangle limits)
+
+======================================================================
+Degenerate point: S_*(1,0) analytic identity
+======================================================================
+PASS (certificate binds the analytic identity S_*(1,0)=0)
+
+======================================================================
+Ding-Sun Condition 1.2: near-one block (block2)
+======================================================================
+PASS  (2a) sqrt(1-m^2) integral vs 2.679 = [0.000987650006243877 +/- 6.47e-19]  [>0]
+PASS  (2a) |tanh| integral vs 3.17 = [0.00768405189576349956 +/- 4.05e-21]  [>0]
+PASS  (2a) (log 2.711)/2 + 1/2 <= 0.9987 = [4.121474173576316119466776e-5 +/- 2.86e-30]  [>0]
+PASS  (2a) 2.679/A + 3.17/A^2 <= 2.711/A at A=100 = [0.0003000000000000000000000000 +/- 1.15e-29]  [>0]
+PASS  (2b) 1 - ell(100) - 0.025 = [0.00133085 +/- 3.95e-9]  [>0]
+PASS  (2c) negative-z envelope gamma_ub < psi_ub = [1.4391133746286066422751886486 +/- 4.55e-29]  [>0]
+PASS  (2c) p:sqrt double integral vs -0.4446 = [9.2108213e-5 +/- 4.25e-13]  [>0]
+PASS  (2c) linear term vs 0.285 = [0.00058978083805676394329113924 +/- 2.25e-30]  [>0]
+PASS  (2d) closing inequality at iota=0.018 = [-0.00287929289194037955950964089 +/- 4.73e-30]  [<0]
+PASS  (2d) coefficient 1.2837 > 1 = [0.28370000000000000000000000000 +/- 2.51e-30]  [>0]
+PASS  (2d) lam_lo(0.99) > 0.982 = [0.00465726 +/- 4.03e-9]  [>0]
+
+11/11 checks passed
+
+======================================================================
+Ding-Sun Condition 1.2: grid logs (block3a) and middle (block3bc)
+======================================================================
+block3a_certificate.json: PASS e18979a7b49d7390f96f45ca34376e71d2661a022c0711e3c5a8fab50f17bc46
+PASS  lam_lo(0.26) > 0.2 = [0.00423194 +/- 5.03e-9]  [>0]
+PASS  lam_up(0.06) < 0.05 = [0.006030603 +/- 3.58e-10]  [>0]
+PASS  lam_up(-0.19) < -0.125 = [0.001763128 +/- 4.01e-10]  [>0]
+PASS  lam_lo(-0.03) > -0.03 = [0.008722845 +/- 6.19e-10]  [>0]
+PASS  lam_up(-0.043) < -0.03 = [0.000350729 +/- 7.20e-10]  [>0]
+PASS  lam_lo(0.078) > 0.05 = [0.007528365 +/- 4.96e-10]  [>0]
+block3bc_certificate.json: PASS 968b3e5bc543da1c3109bf0ff63ddcdf6edc90f3fbcf5e5f24b001e04ca741b1
+
+======================================================================
+Summary
+======================================================================
+PASS  DS Block 1 (rectangle)
+PASS  Huang Region I (star interior)
+PASS  Huang Region I (star)
+PASS  Huang Region II (sweeps)
+PASS  K inside sweep rectangle
+PASS  S_*(1,0) = 0
+PASS  DS Block 2 (near one)
+PASS  DS Block 3a (grids)
+PASS  DS Block 3bc (middle)
+
+ALL CERTIFICATES PASS
+VERIFYALL_EXIT=0
+DONE Mon Jul 13 11:10:39 UTC 2026

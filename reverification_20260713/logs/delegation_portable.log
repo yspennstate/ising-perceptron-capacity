@@ -1,0 +1,6 @@
+PASS sweep1 root cover of R minus EXCL: 1200 disjoint cells; uncovered area 0 confined to the permitted hole (48x25 elementary grid)
+PASS sweep1 delegation containment: 40 delegated rectangles inside EXCL_OLD
+PASS sweep2 root tiling of EXCL_OLD: 240 disjoint cells; uncovered area 0 confined to the permitted hole (20x12 elementary grid)
+PASS sweep2/region1 policy linkage: star fields ['A1S', 'A2S', 'CONE_MID', 'T_CORE', 'T_LONG', 'T_MID', 'WEDGE_HALF', 'W_ANG', 'origin_radius'] and sdot model/coefficients agree
+INFO sweep2 delegates 42 rectangles to Region I; their per-leaf star witnesses are checked by the stage-2 verifier, and the star-interior norm link is attested-runtime scope (see module docstring)
+DELEGATION GEOMETRY PASS

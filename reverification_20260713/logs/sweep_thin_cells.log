@@ -1,0 +1,25 @@
+1337 negative leaves (1000 direct); checking the 10 thinnest direct margins at 40 dps
+PASS cell [1.0825,1.0847]x[0.5278,0.5300]: max sampled -0.0031269971 vs certified sup <= -1.5801352e-5
+PASS cell [1.0489,1.0534]x[0.5050,0.5073]: max sampled -0.0062816752 vs certified sup <= -2.0138913e-5
+PASS cell [1.0444,1.0489]x[0.5141,0.5187]: max sampled -0.0054526999 vs certified sup <= -2.3404035e-5
+PASS cell [1.1407,1.1429]x[0.5823,0.5845]: max sampled -0.0017326465 vs certified sup <= -2.7636939e-5
+PASS cell [1.1653,1.1675]x[0.5891,0.5913]: max sampled -0.0026012417 vs certified sup <= -3.2894527e-5
+PASS cell [1.0646,1.0668]x[0.5209,0.5232]: max sampled -0.0034716748 vs certified sup <= -4.721434e-5
+PASS cell [1.0265,1.0310]x[0.4960,0.5005]: max sampled -0.0085144194 vs certified sup <= -4.7977887e-5
+PASS cell [1.1474,1.1519]x[0.5709,0.5732]: max sampled -0.0048108363 vs certified sup <= -5.1770937e-5
+PASS cell [0.9908,0.9997]x[0.4596,0.4642]: max sampled -0.017400883 vs certified sup <= -6.9516713e-5
+PASS cell [1.0623,1.0668]x[0.5278,0.5300]: max sampled -0.0037707385 vs certified sup <= -7.2847967e-5
+all sampled thin-cell values negative and within certified sups
+---STAGE1---
+873 negative leaves (873 direct); checking the 10 thinnest direct margins at 40 dps
+PASS cell [0.9416,0.9552]x[0.4620,0.4690]: max sampled -0.02959908 vs certified sup <= -2.4942793e-5
+PASS cell [0.4913,0.5458]x[0.2240,0.2520]: max sampled -0.2457676 vs certified sup <= -0.00038595667
+PASS cell [0.8733,0.8870]x[0.3780,0.3850]: max sampled -0.051240443 vs certified sup <= -0.00059304265
+PASS cell [0.9279,0.9416]x[0.5040,0.5180]: max sampled -0.11864947 vs certified sup <= -0.00094929985
+PASS cell [0.7915,0.8188]x[0.2800,0.2940]: max sampled -0.086328482 vs certified sup <= -0.001024447
+PASS cell [0.8051,0.8188]x[0.3360,0.3500]: max sampled -0.074872129 vs certified sup <= -0.0010457628
+PASS cell [0.8597,0.8733]x[0.3990,0.4060]: max sampled -0.050672456 vs certified sup <= -0.0011858048
+PASS cell [0.9279,0.9416]x[0.4480,0.4550]: max sampled -0.030066946 vs certified sup <= -0.0012524684
+PASS cell [0.8460,0.8597]x[0.3500,0.3640]: max sampled -0.059905617 vs certified sup <= -0.0012681041
+PASS cell [0.9552,0.9620]x[0.4410,0.4480]: max sampled -0.024082834 vs certified sup <= -0.0013208284
+all sampled thin-cell values negative and within certified sups

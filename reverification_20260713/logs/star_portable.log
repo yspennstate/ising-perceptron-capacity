@@ -1,0 +1,6 @@
+PASS star-interior portable check: file sha256 a3f158fbd4663d20f2193b87abe2d598cb670096cab110363c25236c870b24d4
+  determinant  >= 3.059814e-03
+  inradius     >= 0.0150391983
+  required     <= 0.0120959020
+  floor           0.0150391982
+  clearance    >= 2.943e-03
