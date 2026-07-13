@@ -25,8 +25,7 @@ TAP conjecture.
 
 The certificates and verifiers have passed the repository's source-bound
 checks and a separate internal audit. They have not yet been independently
-reproduced or peer reviewed. The result should therefore be described as a
-claimed computer-assisted solution pending external specialist verification.
+reproduced or peer reviewed.
 
 ## The two published reductions
 

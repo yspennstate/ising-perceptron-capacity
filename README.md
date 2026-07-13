@@ -17,15 +17,14 @@ M_N / N -> alpha_*,    alpha_* in [0.833078599, 0.833078600].
 
 The included certificates pass their source-bound verifiers and have received
 a separate second-system internal audit. The proof has not yet been
-independently reproduced or peer reviewed, so it should presently be cited as
-a claimed solution pending external specialist audit. The result does not
+independently reproduced or peer reviewed. The result does not
 address nonzero margin or the general free-energy/TAP problem.
 
 The paper is available as [paper/main.pdf](paper/main.pdf), with source in
 [paper/main.tex](paper/main.tex). A proof-architecture and certificate
 dependency guide is available in [THEORY.md](THEORY.md).
 
-## AI contribution disclosure
+## AI contributions
 
 Most of the work was done by two AI systems. Fable 5 (Anthropic) developed the
 main mathematical architecture, wrote the bulk of the proof code, and drafted
