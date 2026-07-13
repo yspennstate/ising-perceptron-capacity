@@ -72,6 +72,12 @@ unit tests and source-bound certificate verifiers are otherwise portable; the
 complete private suite was also reproduced on Windows with 140/140 tests
 passing.
 
+The curated public test discovery reports 90 mathematical tests. The private
+140-test suite adds 50 tests for release, orchestration, and machine-specific
+dispatch tools that are not part of this public proof tree. This difference is
+intentional and does not remove any theorem verifier, certificate, or raw
+proof record.
+
 ## Release attestation
 
 The final Stage-A run and Stage-B package bind private source commit
