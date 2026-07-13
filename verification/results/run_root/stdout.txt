@@ -1,0 +1,17 @@
+247 cells (115 PG, 132 QG), 6 workers
+  20/247 done, 0 fails, 2s elapsed
+  40/247 done, 0 fails, 4s elapsed
+  60/247 done, 0 fails, 5s elapsed
+  80/247 done, 0 fails, 8s elapsed
+  100/247 done, 0 fails, 9s elapsed
+  120/247 done, 0 fails, 18s elapsed
+  140/247 done, 0 fails, 32s elapsed
+  160/247 done, 0 fails, 49s elapsed
+  180/247 done, 0 fails, 66s elapsed
+  200/247 done, 0 fails, 84s elapsed
+  220/247 done, 0 fails, 107s elapsed
+  240/247 done, 0 fails, 130s elapsed
+done: 247 cells, 0 fails, 190s
+PASS  lam(0.24) < 0.2 = [0.012750861 +/- 8.02e-10]  [>0]
+PASS  lam(0.99) > 0.98 = [0.00665726 +/- 4.03e-9]  [>0]
+PASS  lam(-0.18) > -0.125 = [0.004433248 +/- 8.50e-10]  [>0]

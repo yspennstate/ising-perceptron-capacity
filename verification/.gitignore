@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+results/*.tmp
+results/*.log
+results/*.lock
+results/*_final_source.sha256
+results/FINAL_ALL_PASS
+results/BLOCK3BC_FINAL_ALL_PASS
+.proof-empty-pycache/

@@ -433,13 +433,13 @@ def h_support_upper(u, v, g=None):
     return total + tail
 
 
-_HFAN = None
+_HFAN = {}
 
 
 def _get_hfan(ndir=360):
     """Precompute h upper bounds on a fan of directions (unit circle)."""
-    global _HFAN
-    if _HFAN is None or len(_HFAN) != ndir:
+    key = (ndir, ctx.prec, GRID_N)
+    if key not in _HFAN:
         import math
         fan = []
         for k in range(ndir):
@@ -447,23 +447,36 @@ def _get_hfan(ndir=360):
             u = arb(dec(str(round(math.cos(ang), 8))))
             v = arb(dec(str(round(math.sin(ang), 8))))
             fan.append((u, v, h_support_upper(u, v)))
-        _HFAN = fan
-    return _HFAN
+        _HFAN[key] = fan
+    return _HFAN[key]
 
 
 def outside_K(a1lo, a1hi, a2lo, a2hi, ndir=360):
     """True if the a-box is certified to lie outside the achievable body K
     (hence contributes nothing to sup S_*). Tests a fan of directions."""
+    return outside_K_witness(a1lo, a1hi, a2lo, a2hi, ndir) is not None
+
+
+def outside_K_witness(a1lo, a1hi, a2lo, a2hi, ndir=360):
+    """Return the exact separating support witness discarded by outside_K."""
+    import block3bc_exact as exact
     from core import endpoints
     a1lo, a1hi = arb(dec(str(a1lo))), arb(dec(str(a1hi)))
     a2lo, a2hi = arb(dec(str(a2lo))), arb(dec(str(a2hi)))
-    for (u, v, hub) in _get_hfan(ndir):
+    for fan_index, (u, v, hub) in enumerate(_get_hfan(ndir)):
         # min over box of u a1 + v a2, for both (u,v) and (-u,-v)
-        for su, sv in ((u, v), (-u, -v)):
+        for sign, (su, sv) in ((1, (u, v)), (-1, (-u, -v))):
             mn = _corner_min(su, sv, a1lo, a1hi, a2lo, a2hi)
             if mn > hub:
-                return True
-    return False
+                return {
+                    'fan_index': fan_index,
+                    'sign': sign,
+                    'u_packet': exact.arb_packet(su),
+                    'v_packet': exact.arb_packet(sv),
+                    'support_upper_packet': exact.arb_packet(hub),
+                    'box_min_packet': exact.arb_packet(mn),
+                }
+    return None
 
 
 def _corner_min(u, v, a1lo, a1hi, a2lo, a2hi):
