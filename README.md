@@ -67,12 +67,13 @@ python -B -m unittest discover -s tests -p "test_*.py"
 python -B verify_all.py
 ```
 
-One unit test checks Git provenance of a frozen source view and expects to
-run inside a checkout; the remaining 139 tests and all certificate
-validation are self-contained. Exact certificate replay (byte-identical
-ball packets) is guaranteed only on the attested runtime recorded in the
-receipts; on other builds of the same library versions the verifiers still
-validate schemas, geometry, coverage, and signs.
+One unit test inspects the release packager script, which belongs to the
+development tree and is not part of this repository; the remaining 139
+tests and all certificate validation are self-contained here. Exact
+certificate replay (byte-identical ball packets) is guaranteed only on the
+attested runtime recorded in the receipts; on other builds of the same
+library versions the verifiers still validate schemas, geometry, coverage,
+and signs.
 
 ## Receipts
 
